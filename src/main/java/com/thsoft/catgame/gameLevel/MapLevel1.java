@@ -1,7 +1,9 @@
 package com.thsoft.catgame.gameLevel;
 
+import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.game.BaseScreen;
 import com.thsoft.catgame.game.TilemapActor;
+import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class MapLevel1 extends BaseScreen
 {
+	OldMen MainCharacter;
 
 	@Override
 	public void initialize() {
@@ -32,7 +35,7 @@ public class MapLevel1 extends BaseScreen
 
         MapObject startPoint = tma.getRectangleList("start").get(0);
         MapProperties startProps = startPoint.getProperties();
-      //  jack = new Koala( (float)startProps.get("x"), (float)startProps.get("y"), mainStage);
+        MainCharacter = new OldMen( (float)startProps.get("x"), (float)startProps.get("y"), mainStage);
 
 
 		
@@ -41,6 +44,24 @@ public class MapLevel1 extends BaseScreen
 	@Override
 	public void update(float dt) {
 		// TODO Auto-generated method stub
+		for (BaseActor actor : BaseActor.getList(mainStage, SolidActor.class))
+        {
+			SolidActor solid = (SolidActor)actor;       
+            if ( MainCharacter.overlaps(solid) && solid.isEnabled() )
+            {
+                Vector2 offset = MainCharacter.preventOverlap(solid);
+
+                if (offset != null)
+                {
+                    // collided in X direction
+                    if ( Math.abs(offset.x) > Math.abs(offset.y) )
+                    	MainCharacter.getVelocityVec().x = 0;
+                    else // collided in Y direction
+                    	MainCharacter.getVelocityVec().y = 0;
+                }
+            }
+        }
+
 		
 	}
 

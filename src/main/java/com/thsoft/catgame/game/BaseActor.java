@@ -39,6 +39,12 @@ public class BaseActor extends Group {
 	private float elapsedTime;
 	private boolean animationPaused;
 	private Polygon boundaryPolygon;
+	private Vector2 velocityVec;
+    protected Vector2 accelerationVec;
+    private float acceleration;
+    private float maxSpeed;
+    private float deceleration;
+
 
 	// stores size of game world for all actors
 	private static Rectangle worldBounds;
@@ -50,6 +56,13 @@ public class BaseActor extends Group {
 		// perform additional initialization tasks
 		setPosition(x, y);
 		s.addActor(this);
+
+		// initialize physics data
+        setVelocityVec(new Vector2(0,0));
+        accelerationVec = new Vector2(0,0);
+        acceleration = 0;
+        maxSpeed = 1000;
+        deceleration = 0;
 
 		// initialize animation data
 		animation = null;
@@ -540,5 +553,157 @@ public class BaseActor extends Group {
 		Polygon boundaryPolygon1 = new Polygon(vertices);
 		setBoundaryPolygon(boundaryPolygon1);
 	}
+	// ----------------------------------------------
+    // physics/motion methods
+    // ----------------------------------------------
+
+    /**
+     *  Set acceleration of this object.
+     *  @param acc Acceleration in (pixels/second) per second.
+     */
+    public void setAcceleration(float acc)
+    {
+        acceleration = acc;
+    }
+
+    /**
+     *  Set deceleration of this object.
+     *  Deceleration is only applied when object is not accelerating.
+     *  @param dec Deceleration in (pixels/second) per second.
+     */
+    public void setDeceleration(float dec)
+    {
+        deceleration = dec;
+    }
+
+    /**
+     *  Set maximum speed of this object.
+     *  @param ms Maximum speed of this object in (pixels/second).
+     */
+    public void setMaxSpeed(float ms)
+    {
+        maxSpeed = ms;
+    }
+
+    /**
+     *  Set the speed of movement (in pixels/second) in current direction.
+     *  If current speed is zero (direction is undefined), direction will be set to 0 degrees.
+     *  @param speed of movement (pixels/second)
+     */
+    public void setSpeed(float speed)
+    {
+        // if length is zero, then assume motion angle is zero degrees
+        if (getVelocityVec().len() == 0)
+            getVelocityVec().set(speed, 0);
+        else
+            getVelocityVec().setLength(speed);
+    }
+
+    /**
+     *  Calculates the speed of movement (in pixels/second).
+     *  @return speed of movement (pixels/second)
+     */
+    public float getSpeed()
+    {
+        return getVelocityVec().len();
+    }
+
+    /**
+     *  Determines if this object is moving (if speed is greater than zero).
+     *  @return false when speed is zero, true otherwise
+     */
+    public boolean isMoving()
+    {
+        return (getSpeed() > 0);
+    }
+
+    /**
+     *  Sets the angle of motion (in degrees).
+     *  If current speed is zero, this will have no effect.
+     *  @param angle of motion (degrees)
+     */
+    public void setMotionAngle(float angle)
+    {
+        getVelocityVec().setAngle(angle);
+    }
+
+    /**
+     *  Get the angle of motion (in degrees), calculated from the velocity vector.
+     *  <br>
+     *  To align actor image angle with motion angle, use <code>setRotation( getMotionAngle() )</code>.
+     *  @return angle of motion (degrees)
+     */
+    public float getMotionAngle()
+    {
+        return getVelocityVec().angle();
+    }
+
+    /**
+     *  Update accelerate vector by angle and value stored in acceleration field.
+     *  Acceleration is applied by <code>applyPhysics</code> method.
+     *  @param angle Angle (degrees) in which to accelerate.
+     *  @see #acceleration
+     *  @see #applyPhysics
+     */
+    public void accelerateAtAngle(float angle)
+    {
+        accelerationVec.add( 
+            new Vector2(acceleration, 0).setAngle(angle) );
+    }
+
+    /**
+     *  Update accelerate vector by current rotation angle and value stored in acceleration field.
+     *  Acceleration is applied by <code>applyPhysics</code> method.
+     *  @see #acceleration
+     *  @see #applyPhysics
+     */
+    public void accelerateForward()
+    {
+        accelerateAtAngle( getRotation() );
+    }
+
+    /**
+     *  Adjust velocity vector based on acceleration vector, 
+     *  then adjust position based on velocity vector. <br>
+     *  If not accelerating, deceleration value is applied. <br>
+     *  Speed is limited by maxSpeed value. <br>
+     *  Acceleration vector reset to (0,0) at end of method. <br>
+     *  @param dt Time elapsed since previous frame (delta time); typically obtained from <code>act</code> method.
+     *  @see #acceleration
+     *  @see #deceleration
+     *  @see #maxSpeed
+     */
+    public void applyPhysics(float dt)
+    {
+        // apply acceleration
+        getVelocityVec().add( accelerationVec.x * dt, accelerationVec.y * dt );
+
+        float speed = getSpeed();
+
+        // decrease speed (decelerate) when not accelerating
+        if (accelerationVec.len() == 0)
+            speed -= deceleration * dt;
+
+        // keep speed within set bounds
+        speed = MathUtils.clamp(speed, 0, maxSpeed);
+
+        // update velocity
+        setSpeed(speed);
+
+        // update position according to value stored in velocity vector
+        moveBy( getVelocityVec().x * dt, getVelocityVec().y * dt );
+
+        // reset acceleration
+        accelerationVec.set(0,0);
+    }
+
+	public Vector2 getVelocityVec() {
+		return velocityVec;
+	}
+
+	public void setVelocityVec(Vector2 velocityVec) {
+		this.velocityVec = velocityVec;
+	}
+
 
 }

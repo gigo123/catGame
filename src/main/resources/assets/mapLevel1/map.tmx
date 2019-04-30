@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.2" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" nextobjectid="69">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="69">
  <tileset firstgid="1" name="platform-tileset" tilewidth="32" tileheight="32" tilecount="18" columns="6">
   <image source="platform-tileset.png" width="192" height="96"/>
  </tileset>
@@ -43,10 +43,10 @@
    </properties>
   </tile>
  </tileset>
- <imagelayer name="Image Layer 1">
+ <imagelayer id="1" name="Image Layer 1">
   <image source="background.png" width="1600" height="640"/>
  </imagelayer>
- <layer name="Tile Layer 1" width="50" height="20">
+ <layer id="2" name="Tile Layer 1" width="50" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,17,18,0,0,0,0,0,0,0,0,0,0,0,0,17,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,18,0,0,0,0,
@@ -70,10 +70,10 @@
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 </data>
  </layer>
- <objectgroup name="Object Layer 1">
+ <objectgroup id="3" name="Object Layer 1">
   <object id="1" x="0" y="608" width="1600" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="name" value="SolidActor"/>
    </properties>
   </object>
   <object id="2" x="256" y="480" width="64" height="32">
@@ -83,7 +83,7 @@
   </object>
   <object id="3" x="416" y="576" width="160" height="32">
    <properties>
-    <property name="name" value="Solid"/>
+    <property name="name" value="SolidActor"/>
    </properties>
   </object>
   <object id="4" x="448" y="544" width="96" height="32">
