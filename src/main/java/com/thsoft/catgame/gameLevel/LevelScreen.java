@@ -287,7 +287,7 @@ public class LevelScreen extends BaseScreen {
 					hit=true;
 				
 				}
-				for (BaseActor barier : BaseActor.getList(mainStage, BarierActor.getClassNameObject())) {
+				for (BaseActor barier : BaseActor.getList(mainStage, BarierActor.class)) {
 					if (tItem1.overlaps(barier)) {
 
 						tItem1.stopTrow();

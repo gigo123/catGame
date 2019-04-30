@@ -22,7 +22,7 @@ public class SoundControl {
 	        explosionSound   = Gdx.audio.newSound(Gdx.files.internal("assets/sound/explosion.wav"));
 	        catHitSound = Gdx.audio.newSound(Gdx.files.internal("assets/sound/cathit.wav"));
 	        winSound = Gdx.audio.newSound(Gdx.files.internal("assets/sound/wingame.mp3"));
-	        endSound = Gdx.audio.newSound(Gdx.files.internal("assets/sound/endgame.mp3"));
+	        endSound = Gdx.audio.newSound(Gdx.files.internal("assets/sound/endgame.wav"));
 	        launchSound=Gdx.audio.newSound(Gdx.files.internal("assets/sound/launch.mp3")); 
 	        missSound = Gdx.audio.newSound(Gdx.files.internal("assets/sound/miss-cat.wav"));
 	        backgroundMusic.setLooping(true);

@@ -42,7 +42,6 @@ public class BaseActor extends Group {
 
 	// stores size of game world for all actors
 	private static Rectangle worldBounds;
-	private static Class classNameObject;
 
 	public BaseActor(float x, float y, Stage s) {
 		// call constructor from Actor class
@@ -57,7 +56,6 @@ public class BaseActor extends Group {
 		elapsedTime = 0;
 		animationPaused = false;
 		boundaryPolygon = null;
-		classNameObject = this.getClass();
 	}
 
 	/**
@@ -467,9 +465,6 @@ public class BaseActor extends Group {
 		super.draw(batch, parentAlpha);
 	}
 
-	public static Class getClassNameObject() {
-		return classNameObject;
-	}
 
 	/**
 	 * @param boundaryPolygon the boundaryPolygon to set

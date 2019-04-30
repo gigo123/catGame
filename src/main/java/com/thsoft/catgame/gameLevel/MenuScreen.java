@@ -262,7 +262,8 @@ public class MenuScreen extends BaseScreen {
 					}
 					gameseting.setUser(newUser);
 					gameseting.setUserIslogin(true);
-					CatGame.setActiveScreen(new LevelScreen()); // запускаємо перший рівень
+					//CatGame.setActiveScreen(new LevelScreen()); // запускаємо перший рівень
+					CatGame.setActiveScreen(new MapLevel1()); // запускаємо перший рівень
 					return false;
 				});
 

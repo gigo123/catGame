@@ -20,7 +20,6 @@ public class BarierActor extends BaseActor {
 	public BarierActor(float x, float y, Stage s) {
 		super(x, y, s);
 		// loadTexture("assets/barier.png");
-		classNameObject = this.getClass();
 	}
 
 	/**
@@ -28,8 +27,5 @@ public class BarierActor extends BaseActor {
 	 * 
 	 * @return імя класу
 	 */
-	public static Class getClassNameObject() {
-		return classNameObject;
-	}
-
+	
 }
