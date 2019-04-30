@@ -19,11 +19,12 @@ public class OldMen extends BaseActor {
 	private float maxHorizontalSpeed;
 	private float gravity;
 	private float maxVerticalSpeed;
-
+private boolean moveAlowed;
 	private Animation jump;
 	private float jumpSpeed;
 	private BaseActor belowSensor;
 
+	
 	public OldMen(float x, float y, Stage s) {
 		super(x, y, s);
 
@@ -51,17 +52,28 @@ public class OldMen extends BaseActor {
 		belowSensor.setSize(this.getWidth() - 8, 8);
 		belowSensor.setBoundaryRectangle();
 		belowSensor.setVisible(false);
+		moveAlowed =true;
+	}
+
+	public boolean isMoveAlowed() {
+		return moveAlowed;
+	}
+
+	public void setMoveAlowed(boolean moveAlowed) {
+		this.moveAlowed = moveAlowed;
 	}
 
 	public void act(float dt) {
 		super.act(dt);
 
 		// get keyboard input
+		if(moveAlowed) {
 		if (Gdx.input.isKeyPressed(Keys.LEFT))
 			accelerationVec.add(-walkAcceleration, 0);
 
 		if (Gdx.input.isKeyPressed(Keys.RIGHT))
 			accelerationVec.add(walkAcceleration, 0);
+		}
 
 		// decelerate when not accelerating
 		if (!Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {
@@ -119,7 +131,7 @@ public class OldMen extends BaseActor {
 
 		alignCamera();
 		boundToWorld();
-	}
+		}
 
 	public boolean belowOverlaps(BaseActor actor) {
 		return belowSensor.overlaps(actor);

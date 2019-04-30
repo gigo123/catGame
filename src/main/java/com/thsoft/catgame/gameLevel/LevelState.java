@@ -11,6 +11,6 @@ package com.thsoft.catgame.gameLevel;
  * @author Taras Hopka 2019
  */
 public enum LevelState {
-	TARGETING, STARTFIRE, FIREING, HITING, STORY, GAMEWIN, GAMEOVER;
+	TARGETING, STARTFIRE, FIREING, HITING, STORY, GAMEWIN, GAMEOVER,MOVING;
 
 }
