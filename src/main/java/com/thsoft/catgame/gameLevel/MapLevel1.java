@@ -2,11 +2,13 @@ package com.thsoft.catgame.gameLevel;
 
 import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.game.BaseScreen;
+import com.thsoft.catgame.game.InputActionAdapter;
 import com.thsoft.catgame.game.TilemapActor;
-import com.thsoft.catgame.gameLogik.LaunchigPad;
+import com.thsoft.catgame.gameLogik.LaunchPadS;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.Input.Keys;
@@ -21,11 +23,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 public class MapLevel1 extends BaseScreen
 {
 	private OldMen mainCharacter;
-	private LaunchigPad launch1;
+	private LaunchPadS launch1;
 	private LevelState levelStage;
+	private InputActionAdapter inputActionAdapter;
 	@Override
 	public void initialize() {
-		levelStage = LevelState.TARGETING;
+		levelStage = LevelState.MOVING;
 		TilemapActor tma = new TilemapActor("assets/maplevel1/map.tmx", mainStage);
 
         for (MapObject obj : tma.getRectangleList("SolidActor") )
@@ -39,7 +42,8 @@ public class MapLevel1 extends BaseScreen
         MapObject startPoint = tma.getRectangleList("start").get(0);
         MapProperties startProps = startPoint.getProperties();
         mainCharacter = new OldMen( (float)startProps.get("x"), (float)startProps.get("y"), mainStage);
-
+        
+        inputActionAdapter= new InputActionAdapter(mainCharacter);
 		
 	}
 	@Override
@@ -62,6 +66,28 @@ public class MapLevel1 extends BaseScreen
                 }
             }
         }
+		
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			inputActionAdapter.LeftKey(levelStage);
+		}
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			inputActionAdapter.RightKey(levelStage);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			inputActionAdapter.UpKey(levelStage);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			inputActionAdapter.DownKey(levelStage);
+		}
+		if(levelStage== LevelState.TARGETING) {
+		if(mainCharacter.isMoveEnding()) {
+			mainCharacter.setMoveAllowed(false);
+        launch1 = new LaunchPadS(300, 40, 120, -30, mainCharacter.getX(), mainCharacter.getY(), mainStage);
+   		launch1.createTraectory();
+   		inputActionAdapter.setLauchPAd( launch1);
+   		mainCharacter.setMoveEnding(false);
+		}
+	}
 	}
 	public boolean keyDown(int keyCode)
     {
@@ -71,10 +97,8 @@ public class MapLevel1 extends BaseScreen
         if (keyCode == Keys.L)
         {
         	levelStage=LevelState.TARGETING;
-        	mainCharacter.setMoveAlowed(false);
         	 //launch object 
-            launch1 = new LaunchigPad(140, 40, 80, -30, mainCharacter.getX(), mainCharacter.getY(), mainStage);
-    		launch1.createTraectory();
+   
         }
         return false;
     }
