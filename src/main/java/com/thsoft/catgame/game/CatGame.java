@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.thsoft.catgame.gameLevel.MapLevel1;
 import com.thsoft.catgame.gameLevel.MenuScreen;
 
 /**
@@ -103,7 +104,10 @@ public class CatGame extends Game {
 		firsRun = !firsRun;
 		// open databases
 		dbConect = new SqlWorker();
-		setActiveScreen(new MenuScreen());
+		//menu screN
+		//setActiveScreen(new MenuScreen());
+		//level Screan
+		setActiveScreen(new MapLevel1());
 	}
 
 	public static SqlWorker getDbConect() {
