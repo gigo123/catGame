@@ -46,6 +46,14 @@ public class BaseActor extends Group {
     private float deceleration;
 
 
+	public Vector2 getAccelerationVec() {
+		return accelerationVec;
+	}
+
+	public void setAccelerationVec(Vector2 accelerationVec) {
+		this.accelerationVec = accelerationVec;
+	}
+
 	// stores size of game world for all actors
 	private static Rectangle worldBounds;
 
