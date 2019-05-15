@@ -6,9 +6,11 @@ import com.thsoft.catgame.game.InputActionWorker;
 import com.thsoft.catgame.game.MoveIputActionWorker;
 import com.thsoft.catgame.game.TargetInputActionWorker;
 import com.thsoft.catgame.game.TilemapActor;
-import com.thsoft.catgame.gameLogik.LaunchPadS;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
+import com.thsoft.catgame.gameLogik.TraectotyInputCalc;
+import com.thsoft.catgame.gameLogik.TrowTraectory;
+import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapObject;
@@ -23,9 +25,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class MapLevel1 extends BaseScreen {
 	private OldMen mainCharacter;
-	private LaunchPadS launch1;
+	private TraectotyInputCalc traectotyInputCal;
 	private LevelState levelStage;
 	private InputActionWorker iputActionWork;
+	private TrowTraectory trowTraectory;
+	private TrowTraectoryParameters trowTraectoryParameters;
 
 	@Override
 	public void initialize() {
@@ -42,6 +46,14 @@ public class MapLevel1 extends BaseScreen {
 		MapProperties startProps = startPoint.getProperties();
 		mainCharacter = new OldMen((float) startProps.get("x"), (float) startProps.get("y"), mainStage);
 		iputActionWork = new MoveIputActionWorker(mainCharacter);
+		
+		float startSpeeadTrow  =100;
+		float startAngleTrow = 0;
+		float trowMaxSpeead = 300;
+		float trowMinSpeead = 40;
+		float trowMaxAngle = 120;
+		float trowMinAngle = -30;
+		trowTraectoryParameters= new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, trowMaxSpeead, trowMinSpeead, trowMaxAngle, trowMinAngle);
 
 	}
 
@@ -67,9 +79,11 @@ public class MapLevel1 extends BaseScreen {
 		if (levelStage == LevelState.TARGETING) {
 			if (mainCharacter.isMoveEnding()) {
 				mainCharacter.setMoveAllowed(false);
-				launch1 = new LaunchPadS(300, 40, 120, -30, mainCharacter.getX(), mainCharacter.getY(), mainStage);
-				launch1.createTraectory();
-				iputActionWork = new TargetInputActionWorker(launch1);
+				float startTraectoryX=300;
+				float startTraectoryY=40;
+				trowTraectory= new TrowTraectory(startTraectoryX, startTraectoryY, mainStage);
+				traectotyInputCal = new TraectotyInputCalc(trowTraectoryParameters, trowTraectory,mainCharacter.getX(), mainCharacter.getY(), mainStage);
+				iputActionWork = new TargetInputActionWorker(traectotyInputCal);
 				mainCharacter.setMoveEnding(false);
 			}
 		}
