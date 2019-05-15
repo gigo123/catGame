@@ -98,16 +98,10 @@ public class GameSettings  {
 			// load a properties file
 			prop.load(input);
 			System.out.println("read property");
-			//user = new User(prop.getProperty("login"), prop.getProperty("password"),
-					//Boolean.getBoolean(prop.getProperty("autologin")));
+	
 			login =prop.getProperty("login");
 			autologin = Boolean.getBoolean(prop.getProperty("autologin"));
-			// get the property value and print it out
-			System.out.println(prop.getProperty("login"));
-			System.out.println(prop.getProperty("password"));
-			System.out.println(prop.getProperty("autologin"));
-			
-			
+				
 			String scoreString = prop.getProperty("volume");
 			if (scoreString.equals("")) {
 
@@ -121,10 +115,6 @@ public class GameSettings  {
 			} else {
 				soundMute = Boolean.getBoolean(scoreString);
 			}
-			System.out.println(prop.getProperty("mute"));
-			
-			
-			System.out.println(" end read property");
 			return true;
 
 		} catch (IOException ex) {

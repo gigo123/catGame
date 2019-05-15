@@ -118,7 +118,7 @@ public class OldMen extends BaseActor {
 
 			if (getVelocityVec().x == 0) {
 				moveEnding = true;
-				System.out.println("true");
+			//	System.out.println("true");
 			}
 			// reset acceleration
 			accelerationVec.set(0, 0);

@@ -66,9 +66,6 @@ public class SqlWorker {
 			ps.setString(1, login);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-			//	System.out.println(rs.getString(1));
-			//	System.out.println(rs.getString(2));
-			//	System.out.println(rs.getString(3));
 				return true;
 			}
 			rs.close();
