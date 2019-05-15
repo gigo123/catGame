@@ -1,41 +1,34 @@
 package com.thsoft.catgame.game;
 
-import com.thsoft.catgame.gameLogik.LaunchPadS;;
+import com.thsoft.catgame.gameLogik.TraectotyInputCalc;
 public class TargetInputActionWorker  implements InputActionWorker{
-	private LaunchPadS lauchPAd;
+	private TraectotyInputCalc traectotyInputCalc;
 
 	
-	public TargetInputActionWorker(LaunchPadS lauchPAd) {
+	public TargetInputActionWorker(TraectotyInputCalc traectotyInputCalc) {
 		super();
-		this.lauchPAd = lauchPAd;
+		this.traectotyInputCalc = traectotyInputCalc;
 	}
 	
-	public void setLauchPAd(LaunchPadS lauchPAd) {
-		this.lauchPAd = lauchPAd;
+	public void settraectotyInputCalc(TraectotyInputCalc traectotyInputCalc) {
+		this.traectotyInputCalc = traectotyInputCalc;
 	}
 
 	public void LeftKey() {
-			lauchPAd.downSpeead();
-			lauchPAd.clearTraectory();
-			lauchPAd.createTraectory();
+			traectotyInputCalc.downSpeead();
 	}
 
 	public void RightKey() {
-		
-			lauchPAd.addSpeead();
-			lauchPAd.clearTraectory();
-			lauchPAd.createTraectory();
+			traectotyInputCalc.addSpeead();
+			
 	}
 
 	public void UpKey() {
-			lauchPAd.upAngle();
-			lauchPAd.clearTraectory();
-			lauchPAd.createTraectory();
+			traectotyInputCalc.upAngle();
+			
 	}
 
 	public void DownKey() {	
-			lauchPAd.downAngle();
-			lauchPAd.clearTraectory();
-			lauchPAd.createTraectory();
+			traectotyInputCalc.downAngle();
 	}
 }
