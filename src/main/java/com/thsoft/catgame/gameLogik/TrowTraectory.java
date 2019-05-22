@@ -4,23 +4,42 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.tools.particleeditor.Chart.Point;
 import com.thsoft.catgame.game.BaseActor;
 
 public class TrowTraectory {
 	private  ArrayList<BaseActor> traectory;
 	private float startX;
 	private float startY;
-	private Stage mainStage;
 	private float[][] calculatetTraectory;
+	private TrowTraectoryParameters traectoryParameters;
+	private boolean traectoryCreated;
+	private TraectoryActor traectoryActor;
 	
-	public TrowTraectory( float startX, float startY,Stage mainStage) {
-	
-		
+	public TrowTraectoryParameters getTraectoryParameters() {
+		return traectoryParameters;
+	}
+
+	public void setTraectoryParameters(TrowTraectoryParameters traectoryParameters) {
+		this.traectoryParameters = traectoryParameters;
+	}
+
+	public TraectoryActor getTraectoryActor() {
+		return traectoryActor;
+	}
+
+	public void setTraectoryActor(TraectoryActor traectoryActor) {
+		this.traectoryActor = traectoryActor;
+	}
+
+	public TrowTraectory( float startX, float startY, TrowTraectoryParameters traectoryParameters, TraectoryActor traectoryActor) {
 		this.startX = startX;
 		this.startY= startY;
-		this.mainStage=mainStage;
-		traectory = new ArrayList<>();
-		
+		this.traectoryParameters=traectoryParameters;
+		this.traectoryActor = traectoryActor;
+		traectory = traectoryActor.getTraectory();
+		calculatetTraectory = new float[0][0];
+		traectoryCreated = false;
 	}
 	
 	/**
@@ -32,6 +51,7 @@ public class TrowTraectory {
 			BaseActor raindrop = iter.next();
 			raindrop.setVisible(false);// приходуваня елементів
 		}
+		traectoryCreated = false;
 	}
 
 	/**
@@ -68,65 +88,47 @@ public class TrowTraectory {
 	/**
 	 * створення траектрої при заданих параметрів створюется масив точок ( обєктів
 	 * BaseActor) і записуєтся в traectory
-	 * 
-	 * @see #traectory
-	 * @param speead швидкість кидка
-	 * @param angle  кут кидка
 	 */
-	public void createTraectory(float speead, double angle) {
-
-		
-		double g = 9.81;
-		angle = angle * Math.PI / 180;
-		int xOfset = 0;
+	public void createTraectory() {
+		float maxXcoordinate =1100;
+		int curentPointX = 0;
 		int xreal = (int) startX;
-		float circleX;
-		float circleY;
-		while (xOfset + xreal < 1100) {
-
-			circleX = xOfset + xreal;
-			circleY = (float) ((xOfset * Math.tan(angle))
-					- (g / (2 * speead * speead * Math.cos(angle) * Math.cos(angle)) * xOfset * xOfset));
-			circleY += startY;
-			BaseActor circle1 = new BaseActor(circleX, circleY, mainStage);
-			circle1.loadTexture("assets/circle1.png");
-			traectory.add(circle1);
-			xOfset += 50;
-			if (circleY < 0) {
+		float intervalX = 50;
+		int counterCalulatetTraectory = 0;
+		calculatetTraectory= new float[(int)maxXcoordinate - xreal][2];
+		ScreanPoint  point = new ScreanPoint(0, 0);
+		Iterator<BaseActor> iter = traectory.iterator();
+		while (curentPointX + xreal < maxXcoordinate) {
+			point = traectoryCalulation(curentPointX);
+				BaseActor traectoryElement = iter.next();
+				traectoryElement.setX(point.getPointX());
+				traectoryElement.setY(point.getPointY());
+				traectoryElement.setVisible(true);
+			calculatetTraectory[counterCalulatetTraectory][0] = point.getPointX();
+			calculatetTraectory[counterCalulatetTraectory][1] = point.getPointY();
+			counterCalulatetTraectory++;
+			curentPointX += intervalX;
+			if (point.getPointY() < 0) {
 				break;
 			}
 		}
+		traectoryCreated =true;
 	}
-
-	/**
-	 * розраховує траектрою польоту обєкта
-	 * 
-	 * @return повертає матрицю координат float[][0] = координата х , float[][1] =
-	 *         координата y
-	 */
-	public float[][] calculateTraectory(float speeadTrow, double angleTrow) {
+	
+	private ScreanPoint traectoryCalulation(float curentPointX) {
+		float pointX;
+		float pointY;
 		double g = 9.81;
-		float intervalX = 50;
-		float angle = (float) (angleTrow * Math.PI / 180);
+		double angle = traectoryParameters.getAngleTrow() * Math.PI / 180;
+		float speead = traectoryParameters.getSpeeadTrow();
 		int xreal = (int) startX;
-		float circleX;
-		float circleY;
-		int i = 0;
-		float j = 0;
-		float[][] traectoryCoord = new float[1000 - xreal][2];
-		while (j + xreal < 1060) {
-			circleX = j + xreal;
-			circleY = (float) ((j * Math.tan(angle))
-					- (g / (2 * speeadTrow * speeadTrow * Math.cos(angle) * Math.cos(angle)) * j * j));
-			circleY += startY;
-			traectoryCoord[i][0] = circleX;
-			traectoryCoord[i][1] = circleY;
-			i++;
-			j = j +intervalX; 
-			if (circleY < 0)
-				break;
-		}
-		return traectoryCoord;
+		pointX = curentPointX + xreal;
+		pointY = (float) ((curentPointX * Math.tan(angle))
+				- (g / (2 * speead * speead * Math.cos(angle) * Math.cos(angle)) * curentPointX * curentPointX));
+		pointY += startY;
+		ScreanPoint point= new ScreanPoint(pointX, pointY);
+		return point;
+		
 	}
 
 }

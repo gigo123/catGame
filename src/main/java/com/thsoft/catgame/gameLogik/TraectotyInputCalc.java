@@ -6,8 +6,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.thsoft.catgame.game.BaseActor;
 
-public class TraectotyInputCalc extends BaseActor {
-	private  ArrayList<BaseActor> traectory;
+public class TraectotyInputCalc {
 	private TrowTraectoryParameters  trowTraectoryParameters;
 	private boolean fireing;
 	private float ofsettX;
@@ -17,27 +16,17 @@ public class TraectotyInputCalc extends BaseActor {
 	private boolean draggable;
 	private TrowTraectory trowTraectory;
 
-	public TraectotyInputCalc (TrowTraectoryParameters  trowTraectoryParameters, TrowTraectory trowTraectory, float x, float y,Stage s) {
-		super(x, y, s);
+	public TraectotyInputCalc ( TrowTraectoryParameters  trowTraectoryParameters) {
 		this.trowTraectoryParameters = trowTraectoryParameters;
-		this.trowTraectory=trowTraectory;
-		loadTexture("assets/level1/banan.png"); // встановлення тестури
-		float sizeX = 60;
-		float sizeY=30;
-		setSize(sizeX, sizeY);
-		float startPosTraevtoryX = x +sizeX /2;
-		float startPosTraevtoryY = y - sizeY /2;
+	
+
 		draggable = true; // оюет можна переміщати
 		
 	}
 
 
 
-	@Override
-	public void act(float dt) {
-		super.act(dt);
-
-	}
+	
 
 	public void addSpeead() {
 		trowTraectoryParameters.setSpeeadTrow((float)(trowTraectoryParameters.getSpeeadTrow() + 0.5));

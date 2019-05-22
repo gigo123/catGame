@@ -8,6 +8,7 @@ import com.thsoft.catgame.game.TargetInputActionWorker;
 import com.thsoft.catgame.game.TilemapActor;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
+import com.thsoft.catgame.gameLogik.TraectoryActor;
 import com.thsoft.catgame.gameLogik.TraectotyInputCalc;
 import com.thsoft.catgame.gameLogik.TrowTraectory;
 import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
@@ -30,6 +31,7 @@ public class MapLevel1 extends BaseScreen {
 	private InputActionWorker iputActionWork;
 	private TrowTraectory trowTraectory;
 	private TrowTraectoryParameters trowTraectoryParameters;
+	private TraectoryActor traectoryActor;
 
 	@Override
 	public void initialize() {
@@ -53,6 +55,7 @@ public class MapLevel1 extends BaseScreen {
 		float trowMinSpeead = 40;
 		float trowMaxAngle = 120;
 		float trowMinAngle = -30;
+		traectoryActor = new TraectoryActor(mainStage);
 		trowTraectoryParameters= new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, trowMaxSpeead, trowMinSpeead, trowMaxAngle, trowMinAngle);
 
 	}
@@ -81,8 +84,8 @@ public class MapLevel1 extends BaseScreen {
 				mainCharacter.setMoveAllowed(false);
 				float startTraectoryX=300;
 				float startTraectoryY=40;
-				trowTraectory= new TrowTraectory(startTraectoryX, startTraectoryY, mainStage);
-				traectotyInputCal = new TraectotyInputCalc(trowTraectoryParameters, trowTraectory,mainCharacter.getX(), mainCharacter.getY(), mainStage);
+				trowTraectory=new TrowTraectory(mainCharacter.getX(), mainCharacter.getY(), trowTraectoryParameters, traectoryActor);
+				traectotyInputCal = new TraectotyInputCalc(trowTraectoryParameters);
 				iputActionWork = new TargetInputActionWorker(traectotyInputCal);
 				mainCharacter.setMoveEnding(false);
 			}
@@ -130,6 +133,5 @@ public class MapLevel1 extends BaseScreen {
 	}
 
 	private void lauchTrowInem() {
-
 	}
 }
