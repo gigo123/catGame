@@ -2,10 +2,12 @@ package com.thsoft.catgame.gameLevel;
 
 import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.game.BaseScreen;
+import com.thsoft.catgame.game.FireInputActionWorker;
 import com.thsoft.catgame.game.InputActionWorker;
 import com.thsoft.catgame.game.MoveIputActionWorker;
 import com.thsoft.catgame.game.TargetInputActionWorker;
 import com.thsoft.catgame.game.TilemapActor;
+import com.thsoft.catgame.gameLogik.NewThrowItem;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
 import com.thsoft.catgame.gameLogik.TraectoryActor;
@@ -30,6 +32,7 @@ public class MapLevel1 extends BaseScreen {
 	private TrowTraectory trowTraectory;
 	private TrowTraectoryParameters trowTraectoryParameters;
 	private TraectoryActor traectoryActor;
+	private NewThrowItem throwItem;
 
 	@Override
 	public void initialize() {
@@ -64,7 +67,6 @@ public class MapLevel1 extends BaseScreen {
 			SolidActor solid = (SolidActor) actor;
 			if (mainCharacter.overlaps(solid) && solid.isEnabled()) {
 				Vector2 offset = mainCharacter.preventOverlap(solid);
-
 				if (offset != null) {
 					// collided in X direction
 					if (Math.abs(offset.x) > Math.abs(offset.y))
@@ -84,9 +86,14 @@ public class MapLevel1 extends BaseScreen {
 				float startTraectoryY=40;
 				trowTraectory=new TrowTraectory(mainCharacter.getX(), mainCharacter.getY(), trowTraectoryParameters, traectoryActor);
 				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory);
-				mainCharacter.setMoveEnding(false);
-				System.out.println("start trow 1");
+			//	mainCharacter.setMoveEnding(false);
 				trowTraectory.createTraectory();
+			}
+			return;
+		}
+		if (levelStage == LevelState.FIREING) {
+			if( !throwItem.isThrow()) {
+				levelStage = LevelState.TARGETING;
 			}
 		}
 	}
@@ -100,6 +107,8 @@ public class MapLevel1 extends BaseScreen {
 			return false;
 		}
 		if (keyCode == Keys.SPACE) {
+			levelStage = LevelState.FIREING;
+			iputActionWork =new FireInputActionWorker();
 			lauchTrowInem();
 		}
 
@@ -132,6 +141,7 @@ public class MapLevel1 extends BaseScreen {
 	}
 
 	private void lauchTrowInem() {
+		throwItem = new NewThrowItem(mainCharacter.getX(), mainCharacter.getY(), trowTraectory.getCalculatetTraectory(), mainStage);
 		
 		
 	}

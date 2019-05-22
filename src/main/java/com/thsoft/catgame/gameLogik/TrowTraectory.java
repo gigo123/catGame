@@ -15,6 +15,7 @@ public class TrowTraectory {
 	private TrowTraectoryParameters traectoryParameters;
 	private TraectoryActor traectoryActor;
 	
+	
 	public TrowTraectory( float startX, float startY, TrowTraectoryParameters traectoryParameters, TraectoryActor traectoryActor) {
 		this.startX = startX;
 		this.startY= startY;
@@ -40,21 +41,26 @@ public class TrowTraectory {
 		int curentPointX = 0;
 		int xreal = (int) startX;
 		float intervalX = 50;
+		float tempIntevalX=50;
 		int counterCalulatetTraectory = 0;
-		calculatetTraectory= new float[(int)maxXcoordinate - xreal][2];
+		calculatetTraectory= new float[(int) (maxXcoordinate)][2];
 		ScreanPoint  point = new ScreanPoint(0, 0);
 		Iterator<BaseActor> iter = traectory.iterator();
-		System.out.println("start trow2");
-		while (curentPointX + xreal < maxXcoordinate) {
+		while (curentPointX+ intervalX < maxXcoordinate) {
 			point = traectoryCalulation(curentPointX);
+			if(tempIntevalX==intervalX) {
 				BaseActor traectoryElement = iter.next();
 				traectoryElement.setX(point.getPointX());
 				traectoryElement.setY(point.getPointY());
 				traectoryElement.setVisible(true);
+				tempIntevalX=0;
+				}
+			
 			calculatetTraectory[counterCalulatetTraectory][0] = point.getPointX();
 			calculatetTraectory[counterCalulatetTraectory][1] = point.getPointY();
+			tempIntevalX++;
 			counterCalulatetTraectory++;
-			curentPointX += intervalX;
+			curentPointX ++;
 			if (point.getPointY() < 0) {
 				break;
 			}
@@ -90,6 +96,9 @@ public class TrowTraectory {
 
 	public void setTraectoryActor(TraectoryActor traectoryActor) {
 		this.traectoryActor = traectoryActor;
+	}
+	public float[][] getCalculatetTraectory() {
+		return calculatetTraectory;
 	}
 
 }
