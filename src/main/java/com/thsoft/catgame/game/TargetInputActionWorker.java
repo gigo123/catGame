@@ -1,34 +1,39 @@
 package com.thsoft.catgame.game;
 
-import com.thsoft.catgame.gameLogik.TraectotyInputCalc;
+import com.thsoft.catgame.gameLogik.TrowTraectory;
+import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 public class TargetInputActionWorker  implements InputActionWorker{
-	private TraectotyInputCalc traectotyInputCalc;
+	private TrowTraectoryParameters  trowTraectoryParameters;
+	private TrowTraectory trowTraectory;
 
 	
-	public TargetInputActionWorker(TraectotyInputCalc traectotyInputCalc) {
+	public TargetInputActionWorker( TrowTraectoryParameters  trowTraectoryParameters, TrowTraectory trowTraectory) {
 		super();
-		this.traectotyInputCalc = traectotyInputCalc;
+		this.trowTraectoryParameters = trowTraectoryParameters;
+		this.trowTraectory = trowTraectory;
 	}
 	
-	public void settraectotyInputCalc(TraectotyInputCalc traectotyInputCalc) {
-		this.traectotyInputCalc = traectotyInputCalc;
-	}
 
 	public void LeftKey() {
-			traectotyInputCalc.downSpeead();
+		trowTraectoryParameters.setSpeeadTrow((float)(trowTraectoryParameters.getSpeeadTrow() - 0.5));
+			trowTraectory.createTraectory();
 	}
 
 	public void RightKey() {
-			traectotyInputCalc.addSpeead();
-			
+		
+		trowTraectoryParameters.setSpeeadTrow((float)(trowTraectoryParameters.getSpeeadTrow() + 0.5));
+		trowTraectory.createTraectory();
+		
 	}
 
 	public void UpKey() {
-			traectotyInputCalc.upAngle();
+		trowTraectoryParameters.setAngleTrow((float)(trowTraectoryParameters.getAngleTrow() + 0.5));
+		trowTraectory.createTraectory();
 			
 	}
 
 	public void DownKey() {	
-			traectotyInputCalc.downAngle();
+		trowTraectoryParameters.setAngleTrow((float)(trowTraectoryParameters.getAngleTrow() - 0.5));
+		trowTraectory.createTraectory();
 	}
 }

@@ -9,7 +9,6 @@ import com.thsoft.catgame.game.TilemapActor;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
 import com.thsoft.catgame.gameLogik.TraectoryActor;
-import com.thsoft.catgame.gameLogik.TraectotyInputCalc;
 import com.thsoft.catgame.gameLogik.TrowTraectory;
 import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 import com.badlogic.gdx.Gdx;
@@ -26,7 +25,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class MapLevel1 extends BaseScreen {
 	private OldMen mainCharacter;
-	private TraectotyInputCalc traectotyInputCal;
 	private LevelState levelStage;
 	private InputActionWorker iputActionWork;
 	private TrowTraectory trowTraectory;
@@ -85,9 +83,10 @@ public class MapLevel1 extends BaseScreen {
 				float startTraectoryX=300;
 				float startTraectoryY=40;
 				trowTraectory=new TrowTraectory(mainCharacter.getX(), mainCharacter.getY(), trowTraectoryParameters, traectoryActor);
-				traectotyInputCal = new TraectotyInputCalc(trowTraectoryParameters);
-				iputActionWork = new TargetInputActionWorker(traectotyInputCal);
+				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory);
 				mainCharacter.setMoveEnding(false);
+				System.out.println("start trow 1");
+				trowTraectory.createTraectory();
 			}
 		}
 	}
@@ -133,5 +132,7 @@ public class MapLevel1 extends BaseScreen {
 	}
 
 	private void lauchTrowInem() {
+		
+		
 	}
 }

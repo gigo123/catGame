@@ -13,25 +13,8 @@ public class TrowTraectory {
 	private float startY;
 	private float[][] calculatetTraectory;
 	private TrowTraectoryParameters traectoryParameters;
-	private boolean traectoryCreated;
 	private TraectoryActor traectoryActor;
 	
-	public TrowTraectoryParameters getTraectoryParameters() {
-		return traectoryParameters;
-	}
-
-	public void setTraectoryParameters(TrowTraectoryParameters traectoryParameters) {
-		this.traectoryParameters = traectoryParameters;
-	}
-
-	public TraectoryActor getTraectoryActor() {
-		return traectoryActor;
-	}
-
-	public void setTraectoryActor(TraectoryActor traectoryActor) {
-		this.traectoryActor = traectoryActor;
-	}
-
 	public TrowTraectory( float startX, float startY, TrowTraectoryParameters traectoryParameters, TraectoryActor traectoryActor) {
 		this.startX = startX;
 		this.startY= startY;
@@ -39,52 +22,15 @@ public class TrowTraectory {
 		this.traectoryActor = traectoryActor;
 		traectory = traectoryActor.getTraectory();
 		calculatetTraectory = new float[0][0];
-		traectoryCreated = false;
 	}
-	
 	/**
 	 * очищення відображення траекторї
 	 */
 	public void clearTraectory() {
-		Iterator<BaseActor> iter = traectory.iterator();
-		while (iter.hasNext()) {
-			BaseActor raindrop = iter.next();
-			raindrop.setVisible(false);// приходуваня елементів
-		}
-		traectoryCreated = false;
+		traectoryActor.hideTraectory();
+		calculatetTraectory = new float[0][0];	
 	}
 
-	/**
-	 * створення траектрії бе зараметрів, запускає reCreateTraectory(float speead,
-	 * double angle) з парапетрами по замовчуванню
-	 * 
-	 * @see reCreateTraectory
-	 */
-	
-	/*public void CreateTraectory(float speead, double angle) {
-		double g = 9.81;
-		angle = angle * Math.PI / 180;
-		int xOfset = 0;
-		int xreal = (int) startX;
-		float circleX;
-		float circleY;
-		Iterator<BaseActor> iter = traectory.iterator();
-		while (iter.hasNext()) {
-			BaseActor traectoryElement = iter.next();
-			circleX = xOfset + xreal;
-			circleY = (float) ((xOfset * Math.tan(angle))
-					- (g / (2 * speead * speead * Math.cos(angle) * Math.cos(angle)) * xOfset * xOfset));
-			circleY += startY ;
-			traectoryElement.setX(circleX);
-			traectoryElement.setY(circleY);
-			traectoryElement.setVisible(true);
-			xOfset += 50;
-			if (xOfset > 1100) {
-				break;
-			}
-		}
-	}
-*/
 	/**
 	 * створення траектрої при заданих параметрів створюется масив точок ( обєктів
 	 * BaseActor) і записуєтся в traectory
@@ -98,6 +44,7 @@ public class TrowTraectory {
 		calculatetTraectory= new float[(int)maxXcoordinate - xreal][2];
 		ScreanPoint  point = new ScreanPoint(0, 0);
 		Iterator<BaseActor> iter = traectory.iterator();
+		System.out.println("start trow2");
 		while (curentPointX + xreal < maxXcoordinate) {
 			point = traectoryCalulation(curentPointX);
 				BaseActor traectoryElement = iter.next();
@@ -112,7 +59,6 @@ public class TrowTraectory {
 				break;
 			}
 		}
-		traectoryCreated =true;
 	}
 	
 	private ScreanPoint traectoryCalulation(float curentPointX) {
@@ -129,6 +75,21 @@ public class TrowTraectory {
 		ScreanPoint point= new ScreanPoint(pointX, pointY);
 		return point;
 		
+	}
+	public TrowTraectoryParameters getTraectoryParameters() {
+		return traectoryParameters;
+	}
+
+	public void setTraectoryParameters(TrowTraectoryParameters traectoryParameters) {
+		this.traectoryParameters = traectoryParameters;
+	}
+
+	public TraectoryActor getTraectoryActor() {
+		return traectoryActor;
+	}
+
+	public void setTraectoryActor(TraectoryActor traectoryActor) {
+		this.traectoryActor = traectoryActor;
 	}
 
 }
