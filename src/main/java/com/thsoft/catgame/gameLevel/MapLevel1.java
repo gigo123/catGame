@@ -52,13 +52,13 @@ public class MapLevel1 extends BaseScreen {
 		
 		float startSpeeadTrow  =100;
 		float startAngleTrow = 0;
-		float trowMaxSpeead = 300;
-		float trowMinSpeead = 40;
-		float trowMaxAngle = 120;
-		float trowMinAngle = -30;
-		traectoryActor = new TraectoryActor(mainStage);
-		trowTraectoryParameters= new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, trowMaxSpeead, trowMinSpeead, trowMaxAngle, trowMinAngle);
 		
+		traectoryActor = new TraectoryActor(mainStage);
+		trowTraectoryParameters= new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, false);
+		trowTraectoryParameters.setMaxSpead(300);
+		trowTraectoryParameters.setMinSpead(40);
+		trowTraectoryParameters.setMaxAngle(159);
+		trowTraectoryParameters.setMinAngle(-90);
 	System.out.println(BaseActor.getWorldBounds().width);
 
 	}

@@ -8,15 +8,26 @@ public class TrowTraectoryParameters {
 	private float minSpead;
 	private float maxAngle;
 	private float minAngle;
-	public TrowTraectoryParameters(float speeadTrow, double angleTrow,  float maxSpead, float minSpead,
-			float maxAngle, float minAngle) {
+	private boolean direction;
+	private float maxXcoordinate;
+	public TrowTraectoryParameters(float speeadTrow, double angleTrow,boolean direction  ) {
 		super();
 		this.speeadTrow = speeadTrow;
 		this.angleTrow = angleTrow;
-		this.maxSpead = maxSpead;
-		this.minSpead = minSpead;
-		this.maxAngle = maxAngle;
-		this.minAngle = minAngle;
+		this.direction =direction;
+	
+	}
+	public boolean isDirection() {
+		return direction;
+	}
+	public void setDirection(boolean direction) {
+		this.direction = direction;
+	}
+	public float getMaxXcoordinate() {
+		return maxXcoordinate;
+	}
+	public void setMaxXcoordinate(float maxXcoordinate) {
+		this.maxXcoordinate = maxXcoordinate;
 	}
 	public float getSpeeadTrow() {
 		return speeadTrow;
