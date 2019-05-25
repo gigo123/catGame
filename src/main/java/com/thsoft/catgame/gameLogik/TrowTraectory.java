@@ -42,13 +42,14 @@ public class TrowTraectory {
 		int xreal = (int) startX;
 		float intervalX = 50;
 		float tempIntevalX=50;
+		int masIntervalX = 2;
 		int counterCalulatetTraectory = 0;
 		calculatetTraectory= new float[(int) (maxXcoordinate)][2];
 		ScreanPoint  point = new ScreanPoint(0, 0);
 		Iterator<BaseActor> iter = traectory.iterator();
 		while (curentPointX+ intervalX < maxXcoordinate) {
 			point = traectoryCalulation(curentPointX);
-			if(tempIntevalX==intervalX) {
+			if(tempIntevalX>=intervalX) {
 				BaseActor traectoryElement = iter.next();
 				traectoryElement.setX(point.getPointX());
 				traectoryElement.setY(point.getPointY());
@@ -58,9 +59,9 @@ public class TrowTraectory {
 			
 			calculatetTraectory[counterCalulatetTraectory][0] = point.getPointX();
 			calculatetTraectory[counterCalulatetTraectory][1] = point.getPointY();
-			tempIntevalX++;
+			tempIntevalX=tempIntevalX + masIntervalX ;
 			counterCalulatetTraectory++;
-			curentPointX ++;
+			curentPointX = curentPointX+ masIntervalX;
 			if (point.getPointY() < 0) {
 				break;
 			}

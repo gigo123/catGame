@@ -58,25 +58,14 @@ public class MapLevel1 extends BaseScreen {
 		float trowMinAngle = -30;
 		traectoryActor = new TraectoryActor(mainStage);
 		trowTraectoryParameters= new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, trowMaxSpeead, trowMinSpeead, trowMaxAngle, trowMinAngle);
+		
+	System.out.println(BaseActor.getWorldBounds().width);
 
 	}
 
 	@Override
 	public void update(float dt) {
-		for (BaseActor actor : BaseActor.getList(mainStage, SolidActor.class)) {
-			SolidActor solid = (SolidActor) actor;
-			if (mainCharacter.overlaps(solid) && solid.isEnabled()) {
-				Vector2 offset = mainCharacter.preventOverlap(solid);
-				if (offset != null) {
-					// collided in X direction
-					if (Math.abs(offset.x) > Math.abs(offset.y))
-						mainCharacter.getVelocityVec().x = 0;
-					else // collided in Y direction
-						mainCharacter.getVelocityVec().y = 0;
-				}
-			}
-		}
-
+	SolidActor.overlapBarierActor(mainCharacter, mainStage);
 		keyPressedSwich();
 		
 		if (levelStage == LevelState.TARGETING) {
@@ -107,9 +96,11 @@ public class MapLevel1 extends BaseScreen {
 			return false;
 		}
 		if (keyCode == Keys.SPACE) {
+			if(levelStage == LevelState.TARGETING) {
 			levelStage = LevelState.FIREING;
 			iputActionWork =new FireInputActionWorker();
 			lauchTrowInem();
+			}
 		}
 
 		return false;

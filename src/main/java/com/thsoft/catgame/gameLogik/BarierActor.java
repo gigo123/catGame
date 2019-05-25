@@ -5,6 +5,7 @@
  */
 package com.thsoft.catgame.gameLogik;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.thsoft.catgame.game.BaseActor;
 
@@ -15,17 +16,8 @@ import com.thsoft.catgame.game.BaseActor;
  */
 public class BarierActor extends BaseActor {
 
-	private static Class classNameObject;
-
-	public BarierActor(float x, float y, Stage s) {
-		super(x, y, s);
-		// loadTexture("assets/barier.png");
+	public BarierActor(float x, float y, Stage mainStage) {
+		super(x, y, mainStage);
 	}
 
-	/**
-	 * метод для отримання імені класу
-	 * 
-	 * @return імя класу
-	 */
-	
 }
