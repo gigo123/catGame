@@ -10,6 +10,7 @@ public class TrowTraectoryParameters {
 	private float minAngle;
 	private boolean direction;
 	private float maxXcoordinate;
+	private TrowEndingCalc trowEndingCalc;
 	public TrowTraectoryParameters(float speeadTrow, double angleTrow,boolean direction  ) {
 		super();
 		this.speeadTrow = speeadTrow;
@@ -28,6 +29,7 @@ public class TrowTraectoryParameters {
 	}
 	public void setMaxXcoordinate(float maxXcoordinate) {
 		this.maxXcoordinate = maxXcoordinate;
+		trowEndingCalc= new TrowEndingCalc(this);
 	}
 	public float getSpeeadTrow() {
 		return speeadTrow;

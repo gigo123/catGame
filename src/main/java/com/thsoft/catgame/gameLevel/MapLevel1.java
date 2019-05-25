@@ -59,8 +59,7 @@ public class MapLevel1 extends BaseScreen {
 		trowTraectoryParameters.setMinSpead(40);
 		trowTraectoryParameters.setMaxAngle(159);
 		trowTraectoryParameters.setMinAngle(-90);
-	System.out.println(BaseActor.getWorldBounds().width);
-
+		trowTraectoryParameters.setMaxXcoordinate(BaseActor.getWorldBounds().width);
 	}
 
 	@Override

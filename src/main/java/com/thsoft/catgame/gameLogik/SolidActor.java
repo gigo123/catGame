@@ -19,6 +19,7 @@ public class SolidActor extends BaseActor{
     	for (BaseActor actor : BaseActor.getList(mainStage, SolidActor.class)) {
     		SolidActor solid = (SolidActor) actor;
     		if (colider.overlaps(solid) && solid.isEnabled()) {
+    			
     			Vector2 offset = colider.preventOverlap(solid);
 				if (offset != null) {
 					// collided in X direction
@@ -27,6 +28,7 @@ public class SolidActor extends BaseActor{
 					else // collided in Y direction
 						colider.getVelocityVec().y = 0;
 				}
+				return true;
     		}
     	}
     	return false;

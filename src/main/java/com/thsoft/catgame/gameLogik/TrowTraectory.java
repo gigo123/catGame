@@ -37,7 +37,7 @@ public class TrowTraectory {
 	 * BaseActor) і записуєтся в traectory
 	 */
 	public void createTraectory() {
-		float maxXcoordinate =1100;
+		float maxXcoordinate = traectoryParameters.getMaxXcoordinate()-startX;
 		int curentPointX = 0;
 		int xreal = (int) startX;
 		float intervalX = 50;
@@ -74,8 +74,7 @@ public class TrowTraectory {
 		double g = 9.81;
 		double angle = traectoryParameters.getAngleTrow() * Math.PI / 180;
 		float speead = traectoryParameters.getSpeeadTrow();
-		int xreal = (int) startX;
-		pointX = curentPointX + xreal;
+		pointX = curentPointX + startX;
 		pointY = (float) ((curentPointX * Math.tan(angle))
 				- (g / (2 * speead * speead * Math.cos(angle) * Math.cos(angle)) * curentPointX * curentPointX));
 		pointY += startY;
