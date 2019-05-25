@@ -8,9 +8,14 @@ import com.thsoft.catgame.game.BaseActor;
 
 public class TraectoryActor {
 	private  ArrayList<BaseActor> traectory;
+	private Stage mainStage;
 
 	public TraectoryActor(Stage mainStage) {
+		this.mainStage = mainStage;
 		traectory = new ArrayList<BaseActor>();
+		traectoryCreation();
+	}
+	private void traectoryCreation() {
 		for(int i=0;i<300;i++) {
 			BaseActor circle = new BaseActor(0, 0, mainStage);
 			circle.loadTexture("assets/circle1.png");

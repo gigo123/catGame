@@ -45,11 +45,25 @@
   </build>
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.3.1</version>
+        <scope>test</scope>
     </dependency>
+        <dependency>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+        <version>5.3.1</version>
+        <scope>test</scope>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-all</artifactId>
+    <version>1.9.5</version>
+    <scope>test</scope>
+</dependency>
     <!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx -->
 <dependency>
     <groupId>com.badlogicgames.gdx</groupId>
@@ -100,6 +114,13 @@
     <artifactId>gdx-freetype-natives</artifactId>
     <version>1.9.9</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.badlogicgames.gdx/gdx-backend-headless -->
+<dependency>
+    <groupId>com.badlogicgames.gdx</groupId>
+    <artifactId>gdx-backend-headless</artifactId>
+    <version>1.9.9</version>
+</dependency>
+
 <!-- https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
 <dependency>
     <groupId>org.xerial</groupId>

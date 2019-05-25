@@ -28,6 +28,10 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 	 * сцена для інтерфесу
 	 */
 	protected Stage uiStage;
+	public Stage getMainStage() {
+		return mainStage;
+	}
+
 	/**
 	 * таблиця для побудови інтерфейсу
 	 */
