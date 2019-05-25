@@ -52,8 +52,15 @@ public class TrowTraectory {
 			if(tempIntevalX>=intervalX) {
 				BaseActor traectoryElement = iter.next();
 				traectoryElement.setX(point.getPointX());
-				traectoryElement.setY(point.getPointY());
+				traectoryElement.setY(point.getPointY());	
 				traectoryElement.setVisible(true);
+				if(TrowEndingCalc.hitBarier(traectoryElement, traectoryElement.getStage())) {
+			
+					System.out.println(counterCalulatetTraectory);
+					traectoryActor.hideTraectoryFromNuber(counterCalulatetTraectory);
+					break;
+				}
+			
 				tempIntevalX=0;
 				}
 			

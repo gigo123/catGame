@@ -17,7 +17,6 @@ public class TraectoryActor {
 			circle.setVisible(false);
 			traectory.add(circle);
 		}
-		System.out.println("endig create traectory actor");
 	}
 	public void hideTraectory() {
 		Iterator<BaseActor> iter = traectory.iterator();
@@ -25,6 +24,21 @@ public class TraectoryActor {
 			BaseActor circle = iter.next();
 			circle.setVisible(false);
 		}
+	}
+	public void hideTraectoryFromNuber(int i) {
+	//	for(;i<traectory.size();i++) {
+		//	System.out.println("hide");
+		if(i<traectory.size()) {
+			Iterator<BaseActor> iter =traectory.listIterator(i);
+			while (iter.hasNext()) {
+				BaseActor circle = iter.next();
+				circle.setVisible(false);
+				System.out.println("hide");
+			}
+		}
+			
+	//	}
+		
 	}
 
 	public ArrayList<BaseActor> getTraectory() {

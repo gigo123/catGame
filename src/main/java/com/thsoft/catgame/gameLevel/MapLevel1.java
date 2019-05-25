@@ -72,10 +72,11 @@ public class MapLevel1 extends BaseScreen {
 				mainCharacter.setMoveAllowed(false);
 				float startTraectoryX=300;
 				float startTraectoryY=40;
-				trowTraectory=new TrowTraectory(mainCharacter.getX(), mainCharacter.getY(), trowTraectoryParameters, traectoryActor);
+				trowTraectory=new TrowTraectory(mainCharacter.getX(), mainCharacter.getY()+10, trowTraectoryParameters, traectoryActor);
 				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory);
 			//	mainCharacter.setMoveEnding(false);
 				trowTraectory.createTraectory();
+				levelStage = LevelState.RUN;
 			}
 			return;
 		}

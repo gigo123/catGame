@@ -50,8 +50,6 @@ public class NewThrowItem  extends BaseActor{
 
 			moveBy(x, y);
 			throwEtap++;
-		System.out.println(throwEtap);
-		System.out.println(traectoryLine.length);
 			if (throwEtap == traectoryLine.length |TrowEndingCalc.hitBarier(this,getStage())) {
 				System.out.println("stop");
 				stopTrow();
