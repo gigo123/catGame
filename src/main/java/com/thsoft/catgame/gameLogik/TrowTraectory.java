@@ -62,12 +62,13 @@ public class TrowTraectory {
 				}
 			
 				tempIntevalX=0;
+				counterCalulatetTraectory++;
 				}
 			
 			calculatetTraectory[counterCalulatetTraectory][0] = point.getPointX();
 			calculatetTraectory[counterCalulatetTraectory][1] = point.getPointY();
 			tempIntevalX=tempIntevalX + masIntervalX ;
-			counterCalulatetTraectory++;
+		
 			curentPointX = curentPointX+ masIntervalX;
 			if (point.getPointY() < 0) {
 				break;

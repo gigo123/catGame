@@ -31,18 +31,15 @@ public class TraectoryActor {
 		}
 	}
 	public void hideTraectoryFromNuber(int i) {
-	//	for(;i<traectory.size();i++) {
-		//	System.out.println("hide");
+
 		if(i<traectory.size()) {
 			Iterator<BaseActor> iter =traectory.listIterator(i);
 			while (iter.hasNext()) {
 				BaseActor circle = iter.next();
 				circle.setVisible(false);
-				System.out.println("hide");
 			}
 		}
-			
-	//	}
+
 		
 	}
 
