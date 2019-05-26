@@ -19,7 +19,6 @@ public class SolidActor extends BaseActor{
     	for (BaseActor actor : BaseActor.getList(mainStage, SolidActor.class)) {
     		SolidActor solid = (SolidActor) actor;
     		if (colider.overlaps(solid) && solid.isEnabled()) {
-    			
     			Vector2 offset = colider.preventOverlap(solid);
 				if (offset != null) {
 					// collided in X direction

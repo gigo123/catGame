@@ -47,11 +47,14 @@ public class NewThrowItem  extends BaseActor{
 			
 			x = traectoryLine[throwEtap][0] - x;
 			y = traectoryLine[throwEtap][1] - y;
-
 			moveBy(x, y);
 			throwEtap++;
-			if (throwEtap == traectoryLine.length |TrowEndingCalc.hitBarier(this,getStage())) {
-				System.out.println("stop");
+			if (throwEtap == traectoryLine.length ) {
+				
+				stopTrow();
+			}
+			if(TrowEndingCalc.hitBarier(this,getStage())) {
+				System.out.println("hit barier");
 				stopTrow();
 			}
 		}

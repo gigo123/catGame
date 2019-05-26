@@ -49,12 +49,15 @@ public class MapLevel1 extends BaseScreen {
 		MapProperties startProps = startPoint.getProperties();
 		mainCharacter = new OldMen((float) startProps.get("x"), (float) startProps.get("y"), mainStage);
 		iputActionWork = new MoveIputActionWorker(mainCharacter);
-		
-		float startSpeeadTrow  =100;
-		float startAngleTrow = 0;
-		
 		traectoryActor = new TraectoryActor(mainStage);
-		trowTraectoryParameters= new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, false);
+		iniTraectoryParametr();
+
+	}
+
+	private void iniTraectoryParametr() {
+		float startSpeeadTrow = 100;
+		float startAngleTrow = 0;
+		trowTraectoryParameters = new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, false);
 		trowTraectoryParameters.setMaxSpead(300);
 		trowTraectoryParameters.setMinSpead(40);
 		trowTraectoryParameters.setMaxAngle(159);
@@ -64,25 +67,17 @@ public class MapLevel1 extends BaseScreen {
 
 	@Override
 	public void update(float dt) {
-	SolidActor.overlapBarierActor(mainCharacter, mainStage);
+
 		keyPressedSwich();
-		
-		if (levelStage == LevelState.TARGETING) {
-			if (mainCharacter.isMoveEnding()) {
-				mainCharacter.setMoveAllowed(false);
-				float startTraectoryX=300;
-				float startTraectoryY=40;
-				trowTraectory=new TrowTraectory(mainCharacter.getX(), mainCharacter.getY()+10, trowTraectoryParameters, traectoryActor);
-				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory);
-			//	mainCharacter.setMoveEnding(false);
-				trowTraectory.createTraectory();
-				levelStage = LevelState.RUN;
-			}
+		if (levelStage == LevelState.MOVING) {
+			SolidActor.overlapBarierActor(mainCharacter, mainStage);
 			return;
 		}
+
 		if (levelStage == LevelState.FIREING) {
-			if( !throwItem.isThrow()) {
+			if (!throwItem.isThrow()) {
 				levelStage = LevelState.TARGETING;
+				swichLevelMode();
 			}
 		}
 	}
@@ -92,14 +87,23 @@ public class MapLevel1 extends BaseScreen {
 			return false;
 
 		if (keyCode == Keys.L) {
-			swichTargetMOveMode();
+			System.out.println(levelStage.name());
+
+			if (levelStage == LevelState.TARGETING) {
+				levelStage = LevelState.MOVING;
+				swichLevelMode();
+				return false;
+			}
+			if (levelStage == LevelState.MOVING) {
+				levelStage = LevelState.TARGETING;
+				swichLevelMode();
+			}
 			return false;
 		}
 		if (keyCode == Keys.SPACE) {
-			if(levelStage == LevelState.TARGETING) {
-			levelStage = LevelState.FIREING;
-			iputActionWork =new FireInputActionWorker();
-			lauchTrowInem();
+			if (levelStage == LevelState.TARGETING) {
+				levelStage = LevelState.FIREING;
+				swichLevelMode();
 			}
 		}
 
@@ -122,19 +126,42 @@ public class MapLevel1 extends BaseScreen {
 		}
 	}
 
-	private void swichTargetMOveMode() {
-		if (levelStage != LevelState.TARGETING) {
-			levelStage = LevelState.TARGETING;
-		} else {
-			levelStage = LevelState.MOVING;
+	private void swichLevelMode() {
+		switch (levelStage) {
+		case TARGETING:
+			if (mainCharacter.isMoveEnding()) {
+				mainCharacter.setMoveAllowed(false);
+				float startTraectoryX = 30;
+				float startTraectoryY = 20;
+				trowTraectory = new TrowTraectory(mainCharacter.getX()+startTraectoryX, mainCharacter.getY() + startTraectoryY,
+						trowTraectoryParameters, traectoryActor);
+				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory);
+				trowTraectory.createTraectory();
+
+			}
+			break;
+
+		case MOVING:
+			traectoryActor.hideTraectory();
+			mainCharacter.setMoveAllowed(true);
 			iputActionWork = new MoveIputActionWorker(mainCharacter);
+			break;
+
+		case FIREING:
+			iputActionWork = new FireInputActionWorker();
+			lauchTrowInem();
+			break;
+		default:
+			break;
+
 		}
+
 	}
 
 	private void lauchTrowInem() {
-		throwItem = new NewThrowItem(mainCharacter.getX(), mainCharacter.getY(), trowTraectory.getCalculatetTraectory(), mainStage);
-		
-		
+		throwItem = new NewThrowItem(mainCharacter.getX(), mainCharacter.getY(), trowTraectory.getCalculatetTraectory(),
+				mainStage);
+
 	}
-	
+
 }
