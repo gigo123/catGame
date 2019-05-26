@@ -34,6 +34,7 @@ public class MapLevel1 extends BaseScreen {
 	private TraectoryActor traectoryActor;
 	private NewThrowItem throwItem;
 
+	
 	@Override
 	public void initialize() {
 		levelStage = LevelState.MOVING;
@@ -162,6 +163,62 @@ public class MapLevel1 extends BaseScreen {
 		throwItem = new NewThrowItem(mainCharacter.getX(), mainCharacter.getY(), trowTraectory.getCalculatetTraectory(),
 				mainStage);
 
+	}
+
+	public OldMen getMainCharacter() {
+		return mainCharacter;
+	}
+
+	public void setMainCharacter(OldMen mainCharacter) {
+		this.mainCharacter = mainCharacter;
+	}
+
+	public LevelState getLevelStage() {
+		return levelStage;
+	}
+
+	public void setLevelStage(LevelState levelStage) {
+		this.levelStage = levelStage;
+	}
+
+	public InputActionWorker getIputActionWork() {
+		return iputActionWork;
+	}
+
+	public void setIputActionWork(InputActionWorker iputActionWork) {
+		this.iputActionWork = iputActionWork;
+	}
+
+	public TrowTraectory getTrowTraectory() {
+		return trowTraectory;
+	}
+
+	public void setTrowTraectory(TrowTraectory trowTraectory) {
+		this.trowTraectory = trowTraectory;
+	}
+
+	public TrowTraectoryParameters getTrowTraectoryParameters() {
+		return trowTraectoryParameters;
+	}
+
+	public void setTrowTraectoryParameters(TrowTraectoryParameters trowTraectoryParameters) {
+		this.trowTraectoryParameters = trowTraectoryParameters;
+	}
+
+	public TraectoryActor getTraectoryActor() {
+		return traectoryActor;
+	}
+
+	public void setTraectoryActor(TraectoryActor traectoryActor) {
+		this.traectoryActor = traectoryActor;
+	}
+
+	public NewThrowItem getThrowItem() {
+		return throwItem;
+	}
+
+	public void setThrowItem(NewThrowItem throwItem) {
+		this.throwItem = throwItem;
 	}
 
 }
