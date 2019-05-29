@@ -20,7 +20,7 @@ public class TrowEndingCalc {
 			return true;
 		}
 	
-		if(SolidActor.overlapBarierActor(actor, mainStage)) {
+		if(SolidActor.overlapBarierActorB(actor, mainStage)) {
 			return true;
 		}
 		return false;
