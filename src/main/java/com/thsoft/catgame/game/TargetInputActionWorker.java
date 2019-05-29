@@ -36,4 +36,18 @@ public class TargetInputActionWorker  implements InputActionWorker{
 		trowTraectoryParameters.setAngleTrow((float)(trowTraectoryParameters.getAngleTrow() - 0.5));
 		trowTraectory.createTraectory();
 	}
+
+
+	@Override
+	public void Lkey() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void SpareKey() {
+		// TODO Auto-generated method stub
+		
+	}
 }

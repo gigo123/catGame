@@ -34,4 +34,16 @@ public class MoveIputActionWorker implements InputActionWorker {
 
 		
 	}
+
+	@Override
+	public void Lkey() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void SpareKey() {
+		// TODO Auto-generated method stub
+		
+	}
 }

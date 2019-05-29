@@ -12,7 +12,13 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.thsoft.catgame.gameLevel.MapLevel1;
 
 class MapLevelT {
@@ -52,9 +58,11 @@ class MapLevelT {
 	@Test
 	void initializeTest() {
 		init();
-		Stage s =new Stage();
-		MapLevel1 testLevel = Mockito.mock(MapLevel1.class);
-		System.out.println(testLevel.getLevelStage());
+		ShaderProgram defaultShader =Mockito.mock(ShaderProgram.class); 
+		Stage s =new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera()),
+				new SpriteBatch(1000, defaultShader));
+	//	MapLevel1 testLevel = Mockito.mock(MapLevel1.class);
+	//	System.out.println(testLevel.getLevelStage());
 	}
 
 }

@@ -86,7 +86,8 @@ public class OldMen extends BaseActor {
 		 */
 		// decelerate when not accelerating
 		if (moveAllowed) {
-			if (!Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {
+
+			if (!Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {	
 				float decelerationAmount = walkDeceleration * dt;
 
 				float walkDirection;
@@ -129,13 +130,21 @@ public class OldMen extends BaseActor {
 			// manage animations
 			if (this.isOnSolid()) {
 				belowSensor.setColor(Color.GREEN);
-				if (getVelocityVec().x == 0)
+				if (getVelocityVec().x == 0) {
 					setAnimation(stand);
-				else
+					System.out.println("stand");
+				}
+				else {
 					setAnimation(walk);
+					System.out.println("walk");
+					}
+				
+				
 			} else {
+	
 				belowSensor.setColor(Color.RED);
 				setAnimation(jump);
+				System.out.println("jump");
 			}
 
 			if (getVelocityVec().x > 0) // face right
@@ -148,6 +157,7 @@ public class OldMen extends BaseActor {
 			boundToWorld();
 		}
 		else {
+			
 			setAnimation(stand);
 		}
 	}
@@ -167,8 +177,11 @@ public class OldMen extends BaseActor {
 	public boolean isOnSolid() {
 		for (BaseActor actor : BaseActor.getList(getStage(), SolidActor.class)) {
 			SolidActor solid = (SolidActor) actor;
-			if (belowOverlaps(solid) && solid.isEnabled())
+		
+			if (belowOverlaps(solid) && solid.isEnabled()) {
+				System.out.println("on solid");
 				return true;
+			}
 		}
 
 		return false;

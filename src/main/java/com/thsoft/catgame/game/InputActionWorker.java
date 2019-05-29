@@ -5,4 +5,6 @@ public interface InputActionWorker {
 	public void RightKey();
 	public void UpKey();
 	public void DownKey();
+	public void Lkey();
+	public void SpareKey();
 }

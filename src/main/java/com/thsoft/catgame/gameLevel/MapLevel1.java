@@ -27,17 +27,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class MapLevel1 extends BaseScreen {
 	private OldMen mainCharacter;
-	private LevelState levelStage;
 	private InputActionWorker iputActionWork;
-	private TrowTraectory trowTraectory;
-	private TrowTraectoryParameters trowTraectoryParameters;
-	private TraectoryActor traectoryActor;
-	private NewThrowItem throwItem;
+	private MapLevelLogik mapLevelLogik;
 
 	
 	@Override
 	public void initialize() {
-		levelStage = LevelState.MOVING;
+		//levelStage = LevelState.MOVING;
 		TilemapActor tma = new TilemapActor("assets/maplevel1/map.tmx", mainStage);
 
 		for (MapObject obj : tma.getRectangleList("SolidActor")) {
@@ -48,14 +44,17 @@ public class MapLevel1 extends BaseScreen {
 
 		MapObject startPoint = tma.getRectangleList("start").get(0);
 		MapProperties startProps = startPoint.getProperties();
-		mainCharacter = new OldMen((float) startProps.get("x"), (float) startProps.get("y"), mainStage);
-		iputActionWork = new MoveIputActionWorker(mainCharacter);
-		traectoryActor = new TraectoryActor(mainStage);
-		iniTraectoryParametr();
+	
+		mapLevelLogik = new MapLevelLogik(mainStage, (float) startProps.get("x"),(float) startProps.get("y"));
+		//mapLevelLogik.setMainCharacter((float) startProps.get("x"), (float) startProps.get("y"));
+	//	mainCharacter = new OldMen((float) startProps.get("x"), (float) startProps.get("y"), mainStage);
+		//iputActionWork = new MoveIputActionWorker(mainCharacter);
+		//traectoryActor = new TraectoryActor(mainStage);
+	//	iniTraectoryParametr();
 
 	}
 
-	private void iniTraectoryParametr() {
+	/*private void iniTraectoryParametr() {
 		float startSpeeadTrow = 100;
 		float startAngleTrow = 0;
 		trowTraectoryParameters = new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, false);
@@ -65,12 +64,13 @@ public class MapLevel1 extends BaseScreen {
 		trowTraectoryParameters.setMinAngle(-90);
 		trowTraectoryParameters.setMaxXcoordinate(BaseActor.getWorldBounds().width);
 	}
-
+*/
 	@Override
 	public void update(float dt) {
-
+		iputActionWork=mapLevelLogik.getIputActionWork();
 		keyPressedSwich();
-		if (levelStage == LevelState.MOVING) {
+		mapLevelLogik.update();
+		/*if (levelStage == LevelState.MOVING) {
 			SolidActor.overlapBarierActor(mainCharacter, mainStage);
 			return;
 		}
@@ -81,14 +81,16 @@ public class MapLevel1 extends BaseScreen {
 				swichLevelMode();
 			}
 		}
+		*/
 	}
 
 	public boolean keyDown(int keyCode) {
-		if (levelStage == LevelState.GAMEOVER)
-			return false;
+		//if (levelStage == LevelState.GAMEOVER)
+	//		return false;
 
 		if (keyCode == Keys.L) {
-			System.out.println(levelStage.name());
+			iputActionWork.Lkey();
+		/*	System.out.println(levelStage.name());
 
 			if (levelStage == LevelState.TARGETING) {
 				levelStage = LevelState.MOVING;
@@ -99,13 +101,15 @@ public class MapLevel1 extends BaseScreen {
 				levelStage = LevelState.TARGETING;
 				swichLevelMode();
 			}
+			*/
 			return false;
 		}
 		if (keyCode == Keys.SPACE) {
-			if (levelStage == LevelState.TARGETING) {
-				levelStage = LevelState.FIREING;
-				swichLevelMode();
-			}
+			iputActionWork.SpareKey();
+		//	if (levelStage == LevelState.TARGETING) {
+		//		levelStage = LevelState.FIREING;
+		//		swichLevelMode();
+		//	}
 		}
 
 		return false;
@@ -127,7 +131,7 @@ public class MapLevel1 extends BaseScreen {
 		}
 	}
 
-	private void swichLevelMode() {
+/*	private void swichLevelMode() {
 		switch (levelStage) {
 		case TARGETING:
 			if (mainCharacter.isMoveEnding()) {
@@ -158,8 +162,8 @@ public class MapLevel1 extends BaseScreen {
 		}
 
 	}
-
-	private void lauchTrowInem() {
+*/
+/*	private void lauchTrowInem() {
 		throwItem = new NewThrowItem(mainCharacter.getX(), mainCharacter.getY(), trowTraectory.getCalculatetTraectory(),
 				mainStage);
 
@@ -220,5 +224,5 @@ public class MapLevel1 extends BaseScreen {
 	public void setThrowItem(NewThrowItem throwItem) {
 		this.throwItem = throwItem;
 	}
-
+*/
 }
