@@ -33,25 +33,7 @@ public class MapLevel1 extends BaseScreen {
 	
 	@Override
 	public void initialize() {
-		
-		MapProperties startProps =createTilemapActor("assets/maplevel1/map.tmx");
-		mapLevelLogik = new MapLevelLogik(mainStage, (float) startProps.get("x"),(float) startProps.get("y"));
-	}
-	private MapProperties createTilemapActor(String sourseFile) {
-		TilemapActor tma = new TilemapActor(sourseFile, mainStage);
-int i=0;
-		for (MapObject obj : tma.getRectangleList("SolidActor")) {
-			MapProperties props = obj.getProperties();
-			new SolidActor((float) props.get("x"), (float) props.get("y"), (float) props.get("width"),
-					(float) props.get("height"), mainStage);
-			System.out.println(" nuber slod actor " + i);
-			i++;
-		}
-
-		MapObject startPoint = tma.getRectangleList("start").get(0);
-		MapProperties startProps = startPoint.getProperties();
-		return startProps;
-		
+		mapLevelLogik = new MapLevelLogik(mainStage);
 	}
 	
 	@Override

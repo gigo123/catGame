@@ -1,11 +1,14 @@
 package com.thsoft.catgame.gameLevel;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.game.FireInputActionWorker;
 import com.thsoft.catgame.game.InputActionWorker;
 import com.thsoft.catgame.game.MoveIputActionWorker;
 import com.thsoft.catgame.game.TargetInputActionWorker;
+import com.thsoft.catgame.game.TilemapActor;
 import com.thsoft.catgame.gameLogik.NewThrowItem;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
@@ -25,11 +28,11 @@ public class MapLevelLogik {
 	
 	
 
-	public MapLevelLogik(Stage mainStage, float x,float y) {
+	public MapLevelLogik(Stage mainStage) {
 		super();
 		levelStage = LevelState.MOVING;
 		this.mainStage = mainStage;
-		this.mainCharacter  = new OldMen(x, y, mainStage);
+		createTilemapActor("assets/maplevel1/map.tmx");
 		iputActionWork = new MoveIputActionWorker(mainCharacter);
 		traectoryActor = new TraectoryActor(mainStage);
 		iniTraectoryParametr();
@@ -44,9 +47,22 @@ public class MapLevelLogik {
 		trowTraectoryParameters.setMinAngle(-90);
 		trowTraectoryParameters.setMaxXcoordinate(BaseActor.getWorldBounds().width);
 	}
-	public void update() {
-	
+	private void createTilemapActor(String sourseFile) {
+		TilemapActor tma = new TilemapActor(sourseFile, mainStage);
 
+		for (MapObject obj : tma.getRectangleList("SolidActor")) {
+			MapProperties props = obj.getProperties();
+			new SolidActor((float) props.get("x"), (float) props.get("y"), (float) props.get("width"),
+					(float) props.get("height"), mainStage);
+			
+		}
+
+		MapObject startPoint = tma.getRectangleList("start").get(0);
+		MapProperties startProps = startPoint.getProperties();
+		mainCharacter  = new OldMen((float) startProps.get("x"),(float) startProps.get("y"), mainStage);
+		
+	}
+	public void update() {
 		if (levelStage == LevelState.MOVING) {
 			SolidActor.overlapBarierActor(mainCharacter, mainStage);
 			return;
