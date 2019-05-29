@@ -1,7 +1,10 @@
 package com.thsoft.catgame.gameLevel;
 
+import java.util.List;
+
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.game.FireInputActionWorker;
@@ -25,19 +28,19 @@ public class MapLevelLogik {
 	private TrowTraectoryParameters trowTraectoryParameters;
 	private TraectoryActor traectoryActor;
 	private NewThrowItem throwItem;
-	
-	
 
-	public MapLevelLogik(Stage mainStage) {
+	public MapLevelLogik(Stage mainStage, OldMen mainCharacter, float worldSize) {
 		super();
 		levelStage = LevelState.MOVING;
 		this.mainStage = mainStage;
-		createTilemapActor("assets/maplevel1/map.tmx");
+		this.mainCharacter = mainCharacter;
+		// createTilemapActor("assets/maplevel1/map.tmx");
 		iputActionWork = new MoveIputActionWorker(mainCharacter);
 		traectoryActor = new TraectoryActor(mainStage);
-		iniTraectoryParametr();
+		iniTraectoryParametr(worldSize);
 	}
-	private void iniTraectoryParametr() {
+
+	private void iniTraectoryParametr(float worldSize) {
 		float startSpeeadTrow = 100;
 		float startAngleTrow = 0;
 		trowTraectoryParameters = new TrowTraectoryParameters(startSpeeadTrow, startAngleTrow, false);
@@ -45,46 +48,44 @@ public class MapLevelLogik {
 		trowTraectoryParameters.setMinSpead(40);
 		trowTraectoryParameters.setMaxAngle(159);
 		trowTraectoryParameters.setMinAngle(-90);
-		trowTraectoryParameters.setMaxXcoordinate(BaseActor.getWorldBounds().width);
-	}
-	private void createTilemapActor(String sourseFile) {
-		TilemapActor tma = new TilemapActor(sourseFile, mainStage);
+		trowTraectoryParameters.setMaxXcoordinate(worldSize);
 
-		for (MapObject obj : tma.getRectangleList("SolidActor")) {
-			MapProperties props = obj.getProperties();
-			new SolidActor((float) props.get("x"), (float) props.get("y"), (float) props.get("width"),
-					(float) props.get("height"), mainStage);
-			
-		}
-
-		MapObject startPoint = tma.getRectangleList("start").get(0);
-		MapProperties startProps = startPoint.getProperties();
-		mainCharacter  = new OldMen((float) startProps.get("x"),(float) startProps.get("y"), mainStage);
-		
 	}
+
 	public void update() {
 		if (levelStage == LevelState.MOVING) {
-			SolidActor.overlapBarierActor(mainCharacter, mainStage);
+			List<Vector2> overlapList = SolidActor.overlapBarierActor(mainCharacter, mainStage);
+			overlapPrevent(overlapList);
 			return;
 		}
-
-		if (levelStage == LevelState.FIREING) {
+		if (levelStage == LevelState.FIREING)
+		{
 			if (!throwItem.isThrow()) {
 				levelStage = LevelState.TARGETING;
 				swichLevelMode();
 			}
 		}
 	}
-	
-	private void swichLevelMode() {
+
+	public void overlapPrevent(List<Vector2> overlapList) {
+		for (Vector2 offset : overlapList) {
+			if (Math.abs(offset.x) > Math.abs(offset.y)) {
+				mainCharacter.getVelocityVec().x = 0;
+			} else {// collided in Y direction
+				mainCharacter.getVelocityVec().y = 0;
+			}
+		}
+	}
+
+	public void swichLevelMode() {
 		switch (levelStage) {
 		case TARGETING:
 			if (mainCharacter.isMoveEnding()) {
 				mainCharacter.setMoveAllowed(false);
 				float startTraectoryX = 30;
 				float startTraectoryY = 20;
-				trowTraectory = new TrowTraectory(mainCharacter.getX()+startTraectoryX, mainCharacter.getY() + startTraectoryY,
-						trowTraectoryParameters, traectoryActor);
+				trowTraectory = new TrowTraectory(mainCharacter.getX() + startTraectoryX,
+						mainCharacter.getY() + startTraectoryY, trowTraectoryParameters, traectoryActor);
 				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory);
 				trowTraectory.createTraectory();
 
@@ -107,11 +108,13 @@ public class MapLevelLogik {
 		}
 
 	}
+
 	private void lauchTrowInem() {
 		throwItem = new NewThrowItem(mainCharacter.getX(), mainCharacter.getY(), trowTraectory.getCalculatetTraectory(),
 				mainStage);
 
 	}
+
 	public InputActionWorker getIputActionWork() {
 		return iputActionWork;
 	}
