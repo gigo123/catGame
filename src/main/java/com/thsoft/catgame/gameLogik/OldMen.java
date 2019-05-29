@@ -65,7 +65,7 @@ public class OldMen extends BaseActor {
 
 		// set up the below sensor
 		belowSensor = new BaseActor(0, 0, s);
-		// belowSensor.loadTexture("assets/white.png");
+		// belowSensor.loadTexture("assets/barier.png");
 		belowSensor.setSize(this.getWidth() - 8, 8);
 		belowSensor.setBoundaryRectangle();
 		belowSensor.setVisible(false);
@@ -126,25 +126,22 @@ public class OldMen extends BaseActor {
 
 			// move the below sensor below the koala
 			belowSensor.setPosition(getX() + 4, getY() - 8);
-
 			// manage animations
 			if (this.isOnSolid()) {
 				belowSensor.setColor(Color.GREEN);
 				if (getVelocityVec().x == 0) {
 					setAnimation(stand);
-					System.out.println("stand");
+		
 				}
 				else {
 					setAnimation(walk);
-					System.out.println("walk");
-					}
-				
+		
+					}	
 				
 			} else {
 	
 				belowSensor.setColor(Color.RED);
 				setAnimation(jump);
-				System.out.println("jump");
 			}
 
 			if (getVelocityVec().x > 0) // face right
@@ -179,7 +176,6 @@ public class OldMen extends BaseActor {
 			SolidActor solid = (SolidActor) actor;
 		
 			if (belowOverlaps(solid) && solid.isEnabled()) {
-				System.out.println("on solid");
 				return true;
 			}
 		}

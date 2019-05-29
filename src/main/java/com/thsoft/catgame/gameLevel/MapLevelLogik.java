@@ -27,6 +27,7 @@ public class MapLevelLogik {
 
 	public MapLevelLogik(Stage mainStage, float x,float y) {
 		super();
+		levelStage = LevelState.MOVING;
 		this.mainStage = mainStage;
 		this.mainCharacter  = new OldMen(x, y, mainStage);
 		iputActionWork = new MoveIputActionWorker(mainCharacter);
@@ -59,9 +60,6 @@ public class MapLevelLogik {
 		}
 	}
 	
-	//public void setMainCharacter(float x,float y) {
-	//	
-	//}
 	private void swichLevelMode() {
 		switch (levelStage) {
 		case TARGETING:
