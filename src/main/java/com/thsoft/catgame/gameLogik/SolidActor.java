@@ -15,22 +15,34 @@ public class SolidActor extends BaseActor{
         enabled = true;
      
     }
-    public static boolean overlapBarierActor(BaseActor colider,Stage mainStage) {
+    public static boolean overlapBarierActorB(BaseActor colider,Stage mainStage) {
+    	for (BaseActor actor : BaseActor.getList(mainStage, SolidActor.class)) {
+    		SolidActor solid = (SolidActor) actor;
+    		System.out.println("solid actor");
+    		if (colider.overlaps(solid) && solid.isEnabled()) {
+				return true;
+    		}
+    	}
+    	return false;
+    }
+    public static void  overlapBarierActor(BaseActor colider,Stage mainStage) {
     	for (BaseActor actor : BaseActor.getList(mainStage, SolidActor.class)) {
     		SolidActor solid = (SolidActor) actor;
     		if (colider.overlaps(solid) && solid.isEnabled()) {
     			Vector2 offset = colider.preventOverlap(solid);
 				if (offset != null) {
 					// collided in X direction
-					if (Math.abs(offset.x) > Math.abs(offset.y))
+					if (Math.abs(offset.x) > Math.abs(offset.y)) {
 						colider.getVelocityVec().x = 0;
-					else // collided in Y direction
+					}
+					else {// collided in Y direction
 						colider.getVelocityVec().y = 0;
+					}
 				}
-				return true;
+			
     		}
     	}
-    	return false;
+ 
     }
     public void setEnabled(boolean b)
     {
