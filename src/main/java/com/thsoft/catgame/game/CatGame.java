@@ -18,8 +18,8 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.thsoft.catgame.gameLevel.MapLevel1;
 import com.thsoft.catgame.gameLevel.MenuScreen;
+import com.thsoft.catgame.levels.MapLevel1;
 
 /**
  * базовий клас гри, включає створення шрифту з файлу

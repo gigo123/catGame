@@ -1,60 +1,58 @@
-package com.thsoft.catgame.gameLevel;
+package com.thsoft.catgame.levels;
 
-import com.thsoft.catgame.game.BaseActor;
-import com.thsoft.catgame.game.BaseScreen;
-import com.thsoft.catgame.game.FireInputActionWorker;
-import com.thsoft.catgame.game.InputActionWorker;
-import com.thsoft.catgame.game.MoveIputActionWorker;
-import com.thsoft.catgame.game.TargetInputActionWorker;
-import com.thsoft.catgame.game.TilemapActor;
-import com.thsoft.catgame.gameLogik.NewThrowItem;
-import com.thsoft.catgame.gameLogik.OldMen;
-import com.thsoft.catgame.gameLogik.SolidActor;
-import com.thsoft.catgame.gameLogik.TraectoryActor;
-import com.thsoft.catgame.gameLogik.TrowTraectory;
-import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import java.util.ArrayList;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.thsoft.catgame.game.BaseActor;
+import com.thsoft.catgame.game.BaseScreen;
+import com.thsoft.catgame.game.InputActionWorker;
+import com.thsoft.catgame.game.MoveIputActionWorker;
+import com.thsoft.catgame.game.TilemapActor;
+import com.thsoft.catgame.gameLevel.MapLevelLogik;
+import com.thsoft.catgame.gameLevel.MapLevelVaribles;
+import com.thsoft.catgame.gameLogik.OldMen;
+import com.thsoft.catgame.gameLogik.SolidActor;
 
-public class MapLevel1 extends BaseScreen {
-	private OldMen mainCharacter;
+public class MapLevel1 extends  BaseScreen {
+	private MapLevelVaribles mapLevelVaribles;
 	private InputActionWorker iputActionWork;
 	private MapLevelLogik mapLevelLogik;
 
-	
-	@Override
-	public void initialize() {
+	public MapLevel1() {
+		super();
+		mapLevelVaribles = new MapLevelVaribles();
+	//	mapLevelSrean = new MapLevelScrean(mapLevelVaribles);
+		mapLevelVaribles.setMainStage(mainStage);
 		createTilemapActor("assets/maplevel1/map.tmx");
-		mapLevelLogik = new MapLevelLogik(mainStage, mainCharacter,BaseActor.getWorldBounds().width);
+		mapLevelLogik = new MapLevelLogik(mapLevelVaribles);
+		//setMapLevelVaribles(mapLevelVaribles);
+		
 	}
+
 	private void createTilemapActor(String sourseFile) {
+		Stage mainStage = mapLevelVaribles.getMainStage();
 		TilemapActor tma = new TilemapActor(sourseFile, mainStage);
 
 		for (MapObject obj : tma.getRectangleList("SolidActor")) {
 			MapProperties props = obj.getProperties();
 			new SolidActor((float) props.get("x"), (float) props.get("y"), (float) props.get("width"),
 					(float) props.get("height"), mainStage);
-			
+
 		}
 
 		MapObject startPoint = tma.getRectangleList("start").get(0);
 		MapProperties startProps = startPoint.getProperties();
-		mainCharacter  = new OldMen((float) startProps.get("x"),(float) startProps.get("y"), mainStage);
-		
+		mapLevelVaribles
+				.setMainCharacter(new OldMen((float) startProps.get("x"), (float) startProps.get("y"), mainStage));
+		mapLevelVaribles.setIputActionWork( new MoveIputActionWorker(mapLevelVaribles.getMainCharacter()));
+
 	}
-	
 	@Override
 	public void update(float dt) {
-		iputActionWork=mapLevelLogik.getIputActionWork();
+		iputActionWork=mapLevelVaribles.getIputActionWork();
 		keyPressedSwich();
 		mapLevelLogik.update();		
 	}
@@ -105,6 +103,10 @@ public class MapLevel1 extends BaseScreen {
 			iputActionWork.DownKey();
 		}
 	}
-
+	@Override
+	public void initialize() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

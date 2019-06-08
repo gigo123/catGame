@@ -20,7 +20,7 @@ import com.thsoft.catgame.gameLogik.TrowTraectory;
 import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 
 public class MapLevelLogik {
-	private Stage mainStage;
+	//private Stage mainStage;
 	private OldMen mainCharacter;
 	private LevelState levelStage;
 	private InputActionWorker iputActionWork;
@@ -28,17 +28,19 @@ public class MapLevelLogik {
 	private TrowTraectoryParameters trowTraectoryParameters;
 	private TraectoryActor traectoryActor;
 	private NewThrowItem throwItem;
+	private MapLevelVaribles mapLevelVaribles;
 
-	public MapLevelLogik(Stage mainStage, OldMen mainCharacter, float worldSize) {
+	public MapLevelLogik(MapLevelVaribles mapLevelVaribles) {
 		super();
+		this.mapLevelVaribles = mapLevelVaribles;
 		levelStage = LevelState.MOVING;
-		this.mainStage = mainStage;
-		this.mainCharacter = mainCharacter;
-		// createTilemapActor("assets/maplevel1/map.tmx");
+		mainCharacter=mapLevelVaribles.getMainCharacter();
 		iputActionWork = new MoveIputActionWorker(mainCharacter);
-		traectoryActor = new TraectoryActor(mainStage);
-		iniTraectoryParametr(worldSize);
+		traectoryActor = new TraectoryActor(mapLevelVaribles.getMainStage());
+		iniTraectoryParametr(mapLevelVaribles.getWorldWidth());
+		
 	}
+	
 
 	private void iniTraectoryParametr(float worldSize) {
 		float startSpeeadTrow = 100;
@@ -52,9 +54,10 @@ public class MapLevelLogik {
 
 	}
 
+	
 	public void update() {
 		if (levelStage == LevelState.MOVING) {
-			List<Vector2> overlapList = SolidActor.overlapBarierActor(mainCharacter, mainStage);
+			List<Vector2> overlapList = SolidActor.overlapBarierActor(mainCharacter, mapLevelVaribles.getMainStage());
 			overlapPrevent(overlapList);
 			return;
 		}
@@ -111,7 +114,7 @@ public class MapLevelLogik {
 
 	private void lauchTrowInem() {
 		throwItem = new NewThrowItem(mainCharacter.getX(), mainCharacter.getY(), trowTraectory.getCalculatetTraectory(),
-				mainStage);
+				mapLevelVaribles.getMainStage());
 
 	}
 

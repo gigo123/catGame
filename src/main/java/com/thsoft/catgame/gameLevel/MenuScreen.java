@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import com.thsoft.catgame.game.*;
 import com.thsoft.catgame.game.PasswordStorage.CannotPerformOperationException;
 import com.thsoft.catgame.game.PasswordStorage.InvalidHashException;
+import com.thsoft.catgame.levels.MapLevel1;
 import com.badlogic.gdx.utils.viewport.*;
 
 /**

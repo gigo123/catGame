@@ -1,15 +1,9 @@
 package com.THsoft;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.lang.reflect.Field;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.util.reflection.FieldSetter;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
@@ -17,7 +11,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,8 +18,8 @@ import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.gameLevel.LevelState;
-import com.thsoft.catgame.gameLevel.MapLevel1;
 import com.thsoft.catgame.gameLevel.MapLevelLogik;
+import com.thsoft.catgame.gameLevel.MapLevelVaribles;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
 
@@ -79,10 +72,12 @@ class MapLevelT {
 			SolidActor solid = (SolidActor) actor;
     		System.out.println("solid actor");
 		}
-		OldMen mainCharacter  = new OldMen(64,64,s);
-		
+		MapLevelVaribles mapLevelVaribles= new MapLevelVaribles();
+		mapLevelVaribles.setMainCharacter(new OldMen(64,64,s));
+		mapLevelVaribles.setMainStage(s);
 		LevelState levelStage= LevelState.MOVING;
-		MapLevelLogik testLevel = new MapLevelLogik(s, mainCharacter,1000);
+		
+		MapLevelLogik testLevel = new MapLevelLogik(mapLevelVaribles);
 		/*  try {
 		//	  System.out.println(testLevel.getClass().getDeclaredField("mainStage"));
 			  Field fl = MapLevelLogik.class.getDeclaredField("mainStage");
