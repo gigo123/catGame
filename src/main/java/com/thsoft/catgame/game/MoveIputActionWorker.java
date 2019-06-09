@@ -1,14 +1,18 @@
 package com.thsoft.catgame.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.thsoft.catgame.gameLevel.LevelState;
+import com.thsoft.catgame.gameLevel.MapLevelVaribles;
 import com.thsoft.catgame.gameLogik.OldMen;
 
 public class MoveIputActionWorker implements InputActionWorker {
 	private OldMen mainCharacter;
+	private MapLevelVaribles mapLevelVaribles;
 
-	public MoveIputActionWorker(OldMen mainCharacter) {
+	public MoveIputActionWorker(MapLevelVaribles mapLevelVaribles) {
 		super();
-		this.mainCharacter = mainCharacter;
+		this.mapLevelVaribles =mapLevelVaribles;
+		this.mainCharacter = mapLevelVaribles.getMainCharacter();
 	}
 
 	public void setMainCharacter(OldMen mainCharacter) {
@@ -37,7 +41,7 @@ public class MoveIputActionWorker implements InputActionWorker {
 
 	@Override
 	public void Lkey() {
-		// TODO Auto-generated method stub
+		mapLevelVaribles.setLevelStage(LevelState.TARGETING);
 		
 	}
 

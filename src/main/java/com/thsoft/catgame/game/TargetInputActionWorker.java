@@ -1,16 +1,20 @@
 package com.thsoft.catgame.game;
 
+import com.thsoft.catgame.gameLevel.LevelState;
+import com.thsoft.catgame.gameLevel.MapLevelVaribles;
 import com.thsoft.catgame.gameLogik.TrowTraectory;
 import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 public class TargetInputActionWorker  implements InputActionWorker{
 	private TrowTraectoryParameters  trowTraectoryParameters;
 	private TrowTraectory trowTraectory;
+	private MapLevelVaribles mapLevelVaribles;
 
 	
-	public TargetInputActionWorker( TrowTraectoryParameters  trowTraectoryParameters, TrowTraectory trowTraectory) {
+	public TargetInputActionWorker( TrowTraectoryParameters  trowTraectoryParameters, TrowTraectory trowTraectory,MapLevelVaribles mapLevelVaribles) {
 		super();
 		this.trowTraectoryParameters = trowTraectoryParameters;
 		this.trowTraectory = trowTraectory;
+		this.mapLevelVaribles =mapLevelVaribles;
 	}
 	
 
@@ -40,14 +44,13 @@ public class TargetInputActionWorker  implements InputActionWorker{
 
 	@Override
 	public void Lkey() {
-		// TODO Auto-generated method stub
+		mapLevelVaribles.setLevelStage(LevelState.MOVING);
 		
 	}
 
 
 	@Override
 	public void SpareKey() {
-		// TODO Auto-generated method stub
 		
 	}
 }
