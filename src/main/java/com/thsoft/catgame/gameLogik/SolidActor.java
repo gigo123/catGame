@@ -21,7 +21,6 @@ public class SolidActor extends BaseActor{
     public static boolean overlapBarierActorB(BaseActor colider,Stage mainStage) {
     	for (BaseActor actor : BaseActor.getList(mainStage, SolidActor.class)) {
     		SolidActor solid = (SolidActor) actor;
-    		System.out.println("solid actor");
     		if (colider.overlaps(solid) && solid.isEnabled()) {
 				return true;
     		}
