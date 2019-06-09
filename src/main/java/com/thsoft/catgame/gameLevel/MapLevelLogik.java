@@ -12,6 +12,9 @@ import com.thsoft.catgame.game.InputActionWorker;
 import com.thsoft.catgame.game.MoveIputActionWorker;
 import com.thsoft.catgame.game.TargetInputActionWorker;
 import com.thsoft.catgame.game.TilemapActor;
+import com.thsoft.catgame.gameLogik.BarierActor;
+import com.thsoft.catgame.gameLogik.CatHitExplosion;
+import com.thsoft.catgame.gameLogik.CatMapLevel;
 import com.thsoft.catgame.gameLogik.NewThrowItem;
 import com.thsoft.catgame.gameLogik.OldMen;
 import com.thsoft.catgame.gameLogik.SolidActor;
@@ -22,7 +25,7 @@ import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 public class MapLevelLogik {
 	//private Stage mainStage;
 	private OldMen mainCharacter;
-	private LevelState levelStage;
+
 	private InputActionWorker iputActionWork;
 	private TrowTraectory trowTraectory;
 	private TrowTraectoryParameters trowTraectoryParameters;
@@ -33,9 +36,8 @@ public class MapLevelLogik {
 	public MapLevelLogik(MapLevelVaribles mapLevelVaribles) {
 		super();
 		this.mapLevelVaribles = mapLevelVaribles;
-		levelStage = LevelState.MOVING;
 		mainCharacter=mapLevelVaribles.getMainCharacter();
-		iputActionWork = new MoveIputActionWorker(mainCharacter);
+		iputActionWork = new MoveIputActionWorker(mapLevelVaribles);
 		traectoryActor = new TraectoryActor(mapLevelVaribles.getMainStage());
 		iniTraectoryParametr(mapLevelVaribles.getWorldWidth());
 		
@@ -56,17 +58,30 @@ public class MapLevelLogik {
 
 	
 	public void update() {
-		if (levelStage == LevelState.MOVING) {
+		if (mapLevelVaribles.getLevelStage() == LevelState.MOVING) {
 			List<Vector2> overlapList = SolidActor.overlapBarierActor(mainCharacter, mapLevelVaribles.getMainStage());
 			overlapPrevent(overlapList);
 			return;
 		}
-		if (levelStage == LevelState.FIREING)
+		if (mapLevelVaribles.getLevelStage() == LevelState.FIREING)
 		{
 			if (!throwItem.isThrow()) {
-				levelStage = LevelState.TARGETING;
+				mapLevelVaribles.setLevelStage( LevelState.TARGETING);
 				swichLevelMode();
+				return;
 			}
+			
+			for (BaseActor barier : BaseActor.getList(mapLevelVaribles.getMainStage(), CatMapLevel.class)) {
+				if (throwItem.overlaps(barier)) {
+					CatHitExplosion exposion1 = new CatHitExplosion(0, 0, mapLevelVaribles.getMainStage());
+					exposion1.setSize(40, 40);
+					exposion1.centerAtActor(throwItem);
+					throwItem.stopTrow();
+					mapLevelVaribles.setLevelStage( LevelState.TARGETING);
+					swichLevelMode();
+					return;
+				}
+				}
 		}
 	}
 
@@ -81,7 +96,8 @@ public class MapLevelLogik {
 	}
 
 	public void swichLevelMode() {
-		switch (levelStage) {
+		System.out.println(mapLevelVaribles.getLevelStage());
+		switch (mapLevelVaribles.getLevelStage()) {
 		case TARGETING:
 			if (mainCharacter.isMoveEnding()) {
 				mainCharacter.setMoveAllowed(false);
@@ -89,7 +105,8 @@ public class MapLevelLogik {
 				float startTraectoryY = 20;
 				trowTraectory = new TrowTraectory(mainCharacter.getX() + startTraectoryX,
 						mainCharacter.getY() + startTraectoryY, trowTraectoryParameters, traectoryActor);
-				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory);
+				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory,mapLevelVaribles);
+				mapLevelVaribles.setIputActionWork(iputActionWork);
 				trowTraectory.createTraectory();
 
 			}
@@ -98,11 +115,13 @@ public class MapLevelLogik {
 		case MOVING:
 			traectoryActor.hideTraectory();
 			mainCharacter.setMoveAllowed(true);
-			iputActionWork = new MoveIputActionWorker(mainCharacter);
+			iputActionWork = new MoveIputActionWorker(mapLevelVaribles);
+			mapLevelVaribles.setIputActionWork(iputActionWork);
 			break;
 
 		case FIREING:
 			iputActionWork = new FireInputActionWorker();
+			mapLevelVaribles.setIputActionWork(iputActionWork);
 			lauchTrowInem();
 			break;
 		default:
