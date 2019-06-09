@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="69">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="72">
  <tileset firstgid="1" name="platform-tileset" tilewidth="32" tileheight="32" tilecount="18" columns="6">
   <image source="platform-tileset.png" width="192" height="96"/>
  </tileset>
@@ -131,5 +131,22 @@
   <object id="66" gid="19" x="256" y="576" width="32" height="32"/>
   <object id="67" gid="19" x="256" y="288" width="32" height="32"/>
   <object id="68" gid="19" x="288" y="288" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="4" name="moveObject">
+  <object id="69" x="480" y="479" width="32" height="32">
+   <properties>
+    <property name="name" value="cat1"/>
+   </properties>
+  </object>
+  <object id="70" x="512" y="512" width="32" height="32">
+   <properties>
+    <property name="name" value="cat1"/>
+   </properties>
+  </object>
+  <object id="71" x="544" y="543" width="32" height="32">
+   <properties>
+    <property name="name" value="cat1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
