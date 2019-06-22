@@ -26,7 +26,7 @@ public class MapLevelLogik {
 	//private Stage mainStage;
 	private OldMen mainCharacter;
 
-	private InputActionWorker iputActionWork;
+	//private InputActionWorker iputActionWork;
 	private TrowTraectory trowTraectory;
 	private TrowTraectoryParameters trowTraectoryParameters;
 	private TraectoryActor traectoryActor;
@@ -37,7 +37,7 @@ public class MapLevelLogik {
 		super();
 		this.mapLevelVaribles = mapLevelVaribles;
 		mainCharacter=mapLevelVaribles.getMainCharacter();
-		iputActionWork = new MoveIputActionWorker(mapLevelVaribles);
+		mapLevelVaribles.setIputActionWork( new MoveIputActionWorker(mapLevelVaribles));
 		traectoryActor = new TraectoryActor(mapLevelVaribles.getMainStage());
 		iniTraectoryParametr(mapLevelVaribles.getWorldWidth());
 		
@@ -109,8 +109,7 @@ public class MapLevelLogik {
 				float startTraectoryY = 20;
 				trowTraectory = new TrowTraectory(mainCharacter.getX() + startTraectoryX,
 						mainCharacter.getY() + startTraectoryY, trowTraectoryParameters, traectoryActor);
-				iputActionWork = new TargetInputActionWorker(trowTraectoryParameters, trowTraectory,mapLevelVaribles);
-				mapLevelVaribles.setIputActionWork(iputActionWork);
+				mapLevelVaribles.setIputActionWork( new TargetInputActionWorker(trowTraectoryParameters, trowTraectory,mapLevelVaribles));
 				trowTraectory.createTraectory();
 
 			}
@@ -119,13 +118,11 @@ public class MapLevelLogik {
 		case MOVING:
 			traectoryActor.hideTraectory();
 			mainCharacter.setMoveAllowed(true);
-			iputActionWork = new MoveIputActionWorker(mapLevelVaribles);
-			mapLevelVaribles.setIputActionWork(iputActionWork);
+			mapLevelVaribles.setIputActionWork( new MoveIputActionWorker(mapLevelVaribles));
 			break;
 
 		case FIREING:
-			iputActionWork = new FireInputActionWorker();
-			mapLevelVaribles.setIputActionWork(iputActionWork);
+			mapLevelVaribles.setIputActionWork( new FireInputActionWorker());
 			lauchTrowInem();
 			break;
 		default:
@@ -141,8 +138,5 @@ public class MapLevelLogik {
 
 	}
 
-	public InputActionWorker getIputActionWork() {
-		return iputActionWork;
-	}
 
 }
