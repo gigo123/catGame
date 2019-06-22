@@ -58,6 +58,10 @@ public class MapLevelLogik {
 
 	
 	public void update() {
+		if(mapLevelVaribles.isLevelStageChanged()) {
+			swichLevelMode();
+			mapLevelVaribles.setLevelStageChanged(false);
+		}
 		if (mapLevelVaribles.getLevelStage() == LevelState.MOVING) {
 			List<Vector2> overlapList = SolidActor.overlapBarierActor(mainCharacter, mapLevelVaribles.getMainStage());
 			overlapPrevent(overlapList);

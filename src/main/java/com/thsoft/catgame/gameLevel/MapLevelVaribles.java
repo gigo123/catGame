@@ -11,8 +11,19 @@ public class MapLevelVaribles {
 	private float  worldWidth;
 	private InputActionWorker iputActionWork;
 	private MapLevelLogik mapLevelLogik;
+	private boolean levelStageChanged;
 	
 	
+	public MapLevelVaribles() {
+		super();
+		levelStageChanged= false;
+	}
+	public boolean isLevelStageChanged() {
+		return levelStageChanged;
+	}
+	public void setLevelStageChanged(boolean levelStageChanged) {
+		this.levelStageChanged = levelStageChanged;
+	}
 	public MapLevelLogik getMapLevelLogik() {
 		return mapLevelLogik;
 	}
@@ -48,7 +59,7 @@ public class MapLevelVaribles {
 	}
 	public void setLevelStage(LevelState levelStage) {
 		this.levelStage = levelStage;
-		mapLevelLogik.swichLevelMode();
+		levelStageChanged =true;
 	}
 	
 

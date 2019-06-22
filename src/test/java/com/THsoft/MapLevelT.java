@@ -1,5 +1,7 @@
 package com.THsoft;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.thsoft.catgame.game.BaseActor;
+import com.thsoft.catgame.game.InputActionWorker;
+import com.thsoft.catgame.game.MoveIputActionWorker;
 import com.thsoft.catgame.gameLevel.LevelState;
 import com.thsoft.catgame.gameLevel.MapLevelLogik;
 import com.thsoft.catgame.gameLevel.MapLevelVaribles;
@@ -26,6 +30,9 @@ import com.thsoft.catgame.gameLogik.SolidActor;
 class MapLevelT {
 	 // This is our "test" application
     private static Application application;
+   private static  MapLevelLogik testLevel;
+   private static MapLevelVaribles mapLevelVaribles;
+   private static MapLevelLogik mapLevelLogik;
 	 // Before running any tests, initialize the application with the headless backend
     @BeforeClass
     public static void init() {
@@ -47,6 +54,23 @@ class MapLevelT {
         // Use Mockito to mock the OpenGL methods since we are running headlessly
         Gdx.gl20 = Mockito.mock(GL20.class);
         Gdx.gl = Gdx.gl20;
+        ShaderProgram defaultShader =Mockito.mock(ShaderProgram.class); 
+		Stage s =new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera()),
+				new SpriteBatch(1000, defaultShader));
+		new SolidActor(0, 0, 32,32, s);
+		new SolidActor(0, 0, 32,32, s);
+		for (BaseActor actor : BaseActor.getList(s, SolidActor.class)) {
+			SolidActor solid = (SolidActor) actor;
+    		System.out.println("solid actor");
+		}
+		mapLevelVaribles= new MapLevelVaribles();
+		mapLevelVaribles.setMainCharacter(new OldMen(64,64,s));
+		mapLevelVaribles.setMainStage(s);
+		mapLevelLogik= new MapLevelLogik(mapLevelVaribles);
+		mapLevelVaribles.setLevelStage(LevelState.MOVING);
+		
+		 testLevel = new MapLevelLogik(mapLevelVaribles);
+        
  
     }
 
@@ -63,21 +87,10 @@ class MapLevelT {
 	@Test
 	void initializeTest() {
 		init();
-		ShaderProgram defaultShader =Mockito.mock(ShaderProgram.class); 
-		Stage s =new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera()),
-				new SpriteBatch(1000, defaultShader));
-		new SolidActor(0, 0, 32,32, s);
-		new SolidActor(0, 0, 32,32, s);
-		for (BaseActor actor : BaseActor.getList(s, SolidActor.class)) {
-			SolidActor solid = (SolidActor) actor;
-    		System.out.println("solid actor");
-		}
-		MapLevelVaribles mapLevelVaribles= new MapLevelVaribles();
-		mapLevelVaribles.setMainCharacter(new OldMen(64,64,s));
-		mapLevelVaribles.setMainStage(s);
-		LevelState levelStage= LevelState.MOVING;
+		InputActionWorker keyboardInput = mapLevelVaribles.getIputActionWork();
+		System.out.println(keyboardInput);
+		//assertTrue(keyboardInput.getClass()==MoveIputActionWorker.class, "wrong inut class");
 		
-		MapLevelLogik testLevel = new MapLevelLogik(mapLevelVaribles);
 		/*  try {
 		//	  System.out.println(testLevel.getClass().getDeclaredField("mainStage"));
 			  Field fl = MapLevelLogik.class.getDeclaredField("mainStage");
@@ -96,18 +109,13 @@ class MapLevelT {
 			  fSet.set(levelStage);
 			testLevel.swichLevelMode();
 			  testLevel.update();
-			  System.out.println(testLevel.getIputActionWork());
-			  
-			  
-			  
-			  
+			  System.out.println(testLevel.getIputActionWork());	  
 		//	new FieldSetter(mockedPerson, MapLevelLogik.class.getDeclaredField("mainStage"),s);
 		} catch (NoSuchFieldException | SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		*/
-		testLevel.update();
 	}
 
 }
