@@ -85,11 +85,10 @@ class MapLevelT {
  
    
 	@Test
-	void initializeTest() {
+	void StartCondition() {
 		init();
-		InputActionWorker keyboardInput = mapLevelVaribles.getIputActionWork();
-		System.out.println(keyboardInput);
-		//assertTrue(keyboardInput.getClass()==MoveIputActionWorker.class, "wrong inut class");
+		assertTrue(mapLevelVaribles.getLevelStage()==LevelState.MOVING, "wrong level stage");
+		assertTrue(mapLevelVaribles.getIputActionWork().getClass()==MoveIputActionWorker.class, "wrong input class");
 		
 		/*  try {
 		//	  System.out.println(testLevel.getClass().getDeclaredField("mainStage"));
