@@ -22,6 +22,7 @@ import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.game.InputActionWorker;
 import com.thsoft.catgame.game.MoveIputActionWorker;
 import com.thsoft.catgame.gameLevel.LevelState;
+import com.thsoft.catgame.gameLevel.MapLevel1;
 import com.thsoft.catgame.gameLevel.MapLevelLogik;
 import com.thsoft.catgame.gameLevel.MapLevelVaribles;
 import com.thsoft.catgame.gameLogik.OldMen;
@@ -30,7 +31,6 @@ import com.thsoft.catgame.gameLogik.SolidActor;
 class MapLevelT {
 	 // This is our "test" application
     private static Application application;
-   private static  MapLevelLogik testLevel;
    private static MapLevelVaribles mapLevelVaribles;
    private static MapLevelLogik mapLevelLogik;
 	 // Before running any tests, initialize the application with the headless backend
@@ -57,19 +57,19 @@ class MapLevelT {
         ShaderProgram defaultShader =Mockito.mock(ShaderProgram.class); 
 		Stage s =new Stage(new ScalingViewport(Scaling.stretch, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera()),
 				new SpriteBatch(1000, defaultShader));
-		new SolidActor(0, 0, 32,32, s);
+	/*	new SolidActor(0, 0, 32,32, s);
 		new SolidActor(0, 0, 32,32, s);
 		for (BaseActor actor : BaseActor.getList(s, SolidActor.class)) {
 			SolidActor solid = (SolidActor) actor;
     		System.out.println("solid actor");
 		}
+		*/
 		mapLevelVaribles= new MapLevelVaribles();
 		mapLevelVaribles.setMainCharacter(new OldMen(64,64,s));
 		mapLevelVaribles.setMainStage(s);
 		mapLevelLogik= new MapLevelLogik(mapLevelVaribles);
 		mapLevelVaribles.setLevelStage(LevelState.MOVING);
 		
-		 testLevel = new MapLevelLogik(mapLevelVaribles);
         
  
     }
@@ -87,8 +87,10 @@ class MapLevelT {
 	@Test
 	void StartCondition() {
 		init();
+		assertTrue(mapLevelVaribles.getMainStage().getClass()==Stage.class, "wrong level stage");
 		assertTrue(mapLevelVaribles.getLevelStage()==LevelState.MOVING, "wrong level stage");
 		assertTrue(mapLevelVaribles.getIputActionWork().getClass()==MoveIputActionWorker.class, "wrong input class");
+		assertTrue(mapLevelVaribles.getMainCharacter().getClass()==OldMen.class, "wrong object from main charter");
 		
 		/*  try {
 		//	  System.out.println(testLevel.getClass().getDeclaredField("mainStage"));
