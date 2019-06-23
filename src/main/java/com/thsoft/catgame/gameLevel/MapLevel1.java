@@ -3,58 +3,27 @@ package com.thsoft.catgame.gameLevel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.thsoft.catgame.game.BaseActor;
 import com.thsoft.catgame.game.BaseScreen;
 import com.thsoft.catgame.game.InputActionWorker;
 import com.thsoft.catgame.game.MoveIputActionWorker;
-import com.thsoft.catgame.game.TilemapActor;
-import com.thsoft.catgame.gameLogik.CatMapLevel;
-import com.thsoft.catgame.gameLogik.OldMen;
-import com.thsoft.catgame.gameLogik.SolidActor;
+import com.thsoft.catgame.game.TilemapActorBuilder;
 
 public class MapLevel1 extends BaseScreen {
 	private MapLevelVaribles mapLevelVaribles;
 	private InputActionWorker iputActionWork;
 	private MapLevelLogik mapLevelLogik;
+	
 
 	public MapLevel1(String mapFile) {
 		super();
 		mapLevelVaribles = new MapLevelVaribles();
 		mapLevelVaribles.setMainStage(mainStage);
-		createTilemapActor(mapFile);
+		new TilemapActorBuilder(mapFile, mapLevelVaribles);
 		mapLevelVaribles.setWorldWidth(BaseActor.getWorldBounds().getWidth());
 		mapLevelLogik = new MapLevelLogik(mapLevelVaribles);
 		mapLevelVaribles.setMapLevelLogik(mapLevelLogik);
 		mapLevelVaribles.setLevelStage(LevelState.MOVING);
-
-	}
-
-	private void createTilemapActor(String sourseFile) {
-		Stage mainStage = mapLevelVaribles.getMainStage();
-		TilemapActor tma = new TilemapActor(sourseFile, mainStage);
-
-		for (MapObject obj : tma.getRectangleList("SolidActor")) {
-			MapProperties props = obj.getProperties();
-			new SolidActor((float) props.get("x"), (float) props.get("y"), (float) props.get("width"),
-					(float) props.get("height"), mainStage);
-
-		}
-
-		MapObject startPoint = tma.getRectangleList("start").get(0);
-		MapProperties startProps = startPoint.getProperties();
-		mapLevelVaribles
-				.setMainCharacter(new OldMen((float) startProps.get("x"), (float) startProps.get("y"), mainStage));
-
-		for (MapObject obj : tma.getRectangleList("cat1")) {
-			MapProperties props = obj.getProperties();
-			new CatMapLevel((float) props.get("x"), (float) props.get("y"), (float) props.get("width"),
-					(float) props.get("height"), mainStage);
-
-		}
-
 		mapLevelVaribles.setIputActionWork(new MoveIputActionWorker(mapLevelVaribles));
 
 	}
