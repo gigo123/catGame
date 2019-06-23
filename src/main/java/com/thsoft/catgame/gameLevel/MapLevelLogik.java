@@ -23,26 +23,22 @@ import com.thsoft.catgame.gameLogik.TrowTraectory;
 import com.thsoft.catgame.gameLogik.TrowTraectoryParameters;
 
 public class MapLevelLogik {
-	//private Stage mainStage;
 	private OldMen mainCharacter;
-
-	//private InputActionWorker iputActionWork;
 	private TrowTraectory trowTraectory;
 	private TrowTraectoryParameters trowTraectoryParameters;
 	private TraectoryActor traectoryActor;
 	private NewThrowItem throwItem;
 	private MapLevelVaribles mapLevelVaribles;
+	
 
 	public MapLevelLogik(MapLevelVaribles mapLevelVaribles) {
 		super();
 		this.mapLevelVaribles = mapLevelVaribles;
-		mainCharacter=mapLevelVaribles.getMainCharacter();
-		mapLevelVaribles.setIputActionWork( new MoveIputActionWorker(mapLevelVaribles));
+		mainCharacter = mapLevelVaribles.getMainCharacter();
+		mapLevelVaribles.setIputActionWork(new MoveIputActionWorker(mapLevelVaribles));
 		traectoryActor = new TraectoryActor(mapLevelVaribles.getMainStage());
 		iniTraectoryParametr(mapLevelVaribles.getWorldWidth());
-		
 	}
-	
 
 	private void iniTraectoryParametr(float worldSize) {
 		float startSpeeadTrow = 100;
@@ -56,9 +52,8 @@ public class MapLevelLogik {
 
 	}
 
-	
 	public void update() {
-		if(mapLevelVaribles.isLevelStageChanged()) {
+		if (mapLevelVaribles.isLevelStageChanged()) {
 			swichLevelMode();
 			mapLevelVaribles.setLevelStageChanged(false);
 		}
@@ -67,25 +62,24 @@ public class MapLevelLogik {
 			overlapPrevent(overlapList);
 			return;
 		}
-		if (mapLevelVaribles.getLevelStage() == LevelState.FIREING)
-		{
+		if (mapLevelVaribles.getLevelStage() == LevelState.FIREING) {
 			if (!throwItem.isThrow()) {
-				mapLevelVaribles.setLevelStage( LevelState.TARGETING);
+				mapLevelVaribles.setLevelStage(LevelState.TARGETING);
 				swichLevelMode();
 				return;
 			}
-			
+
 			for (BaseActor barier : BaseActor.getList(mapLevelVaribles.getMainStage(), CatMapLevel.class)) {
 				if (throwItem.overlaps(barier)) {
 					CatHitExplosion exposion1 = new CatHitExplosion(0, 0, mapLevelVaribles.getMainStage());
 					exposion1.setSize(40, 40);
 					exposion1.centerAtActor(throwItem);
 					throwItem.stopTrow();
-					mapLevelVaribles.setLevelStage( LevelState.TARGETING);
+					mapLevelVaribles.setLevelStage(LevelState.TARGETING);
 					swichLevelMode();
 					return;
 				}
-				}
+			}
 		}
 	}
 
@@ -109,7 +103,8 @@ public class MapLevelLogik {
 				float startTraectoryY = 20;
 				trowTraectory = new TrowTraectory(mainCharacter.getX() + startTraectoryX,
 						mainCharacter.getY() + startTraectoryY, trowTraectoryParameters, traectoryActor);
-				mapLevelVaribles.setIputActionWork( new TargetInputActionWorker(trowTraectoryParameters, trowTraectory,mapLevelVaribles));
+				mapLevelVaribles.setIputActionWork(
+						new TargetInputActionWorker(trowTraectoryParameters, trowTraectory, mapLevelVaribles));
 				trowTraectory.createTraectory();
 
 			}
@@ -118,11 +113,11 @@ public class MapLevelLogik {
 		case MOVING:
 			traectoryActor.hideTraectory();
 			mainCharacter.setMoveAllowed(true);
-			mapLevelVaribles.setIputActionWork( new MoveIputActionWorker(mapLevelVaribles));
+			mapLevelVaribles.setIputActionWork(new MoveIputActionWorker(mapLevelVaribles));
 			break;
 
 		case FIREING:
-			mapLevelVaribles.setIputActionWork( new FireInputActionWorker());
+			mapLevelVaribles.setIputActionWork(new FireInputActionWorker());
 			lauchTrowInem();
 			break;
 		default:
@@ -138,5 +133,21 @@ public class MapLevelLogik {
 
 	}
 
+	private TrowTraectory getTrowTraectory() {
+		return trowTraectory;
+	}
+
+	private TrowTraectoryParameters getTrowTraectoryParameters() {
+		return trowTraectoryParameters;
+	}
+
+	private TraectoryActor getTraectoryActor() {
+		return traectoryActor;
+	}
+
+	private NewThrowItem getThrowItem() {
+		return throwItem;
+	}
+	
 
 }
