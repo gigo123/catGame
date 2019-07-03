@@ -53,6 +53,12 @@ public class MapLevelLogik {
 	}
 
 	public void update() {
+		
+		//for (BaseActor barier : BaseActor.getList(mainStage, BarierActor.class)) {
+			//if (tItem1.overlaps(barier)) {
+		//	}
+			
+		//	}
 		if (mapLevelVaribles.isLevelStageChanged()) {
 			swichLevelMode();
 			mapLevelVaribles.setLevelStageChanged(false);
