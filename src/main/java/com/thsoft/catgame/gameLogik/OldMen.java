@@ -87,63 +87,13 @@ public class OldMen extends BaseActor {
 		// decelerate when not accelerating
 		if (moveAllowed) {
 
-			if (!Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {	
-				float decelerationAmount = walkDeceleration * dt;
-
-				float walkDirection;
-
-				if (getVelocityVec().x > 0)
-					walkDirection = 1;
-				else
-					walkDirection = -1;
-
-				float walkSpeed = Math.abs(getVelocityVec().x);
-
-				walkSpeed -= decelerationAmount;
-
-				if (walkSpeed < 0)
-					walkSpeed = 0;
-
-				getVelocityVec().x = walkSpeed * walkDirection;
-
-			}
-
-			// apply gravity
-			accelerationVec.add(0, -gravity);
-
-			getVelocityVec().add(accelerationVec.x * dt, accelerationVec.y * dt);
-
-			getVelocityVec().x = MathUtils.clamp(getVelocityVec().x, -maxHorizontalSpeed, maxHorizontalSpeed);
-
-			moveBy(getVelocityVec().x * dt, getVelocityVec().y * dt);
-
-			if (getVelocityVec().x == 0) {
-				moveEnding = true;
-			//	System.out.println("true");
-			}
-			// reset acceleration
-			accelerationVec.set(0, 0);
-
-			// move the below sensor below the koala
-			belowSensor.setPosition(getX() + 4, getY() - 8);
-			// manage animations
-			if (this.isOnSolid()) {
-				belowSensor.setColor(Color.GREEN);
-				if (getVelocityVec().x == 0) {
-					setAnimation(stand);
+			if (!Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {
+				deacselerate( dt);
 		
-				}
-				else {
-					setAnimation(walk);
-		
-					}	
-				
-			} else {
-	
-				belowSensor.setColor(Color.RED);
-				setAnimation(jump);
 			}
-
+			applyGravity(dt);
+			
+			belowSensorCalc();
 			if (getVelocityVec().x > 0) // face right
 				setScaleX(1);
 
@@ -198,5 +148,66 @@ public class OldMen extends BaseActor {
 	public boolean isJumping() {
 		return (getVelocityVec().y > 0);
 	}
+	private void deacselerate(float dt) {
+		float decelerationAmount = walkDeceleration * dt;
+
+		float walkDirection;
+
+		if (getVelocityVec().x > 0)
+			walkDirection = 1;
+		else
+			walkDirection = -1;
+
+		float walkSpeed = Math.abs(getVelocityVec().x);
+
+		walkSpeed -= decelerationAmount;
+
+		if (walkSpeed < 0)
+			walkSpeed = 0;
+
+		getVelocityVec().x = walkSpeed * walkDirection;
+	}
+	
+	private void applyGravity(float dt) {
+		// apply gravity
+					accelerationVec.add(0, -gravity);
+
+					getVelocityVec().add(accelerationVec.x * dt, accelerationVec.y * dt);
+
+					getVelocityVec().x = MathUtils.clamp(getVelocityVec().x, -maxHorizontalSpeed, maxHorizontalSpeed);
+
+					moveBy(getVelocityVec().x * dt, getVelocityVec().y * dt);
+
+					if (getVelocityVec().x == 0) {
+						moveEnding = true;
+					//	System.out.println("true");
+					}
+					// reset acceleration
+					accelerationVec.set(0, 0);
+	}
+	private void belowSensorCalc() {
+
+		// move the below sensor below the koala
+		belowSensor.setPosition(getX() + 4, getY() - 8);
+		// manage animations
+		if (this.isOnSolid()) {
+			belowSensor.setColor(Color.GREEN);
+			if (getVelocityVec().x == 0) {
+				setAnimation(stand);
+	
+			}
+			else {
+				setAnimation(walk);
+	
+				}	
+			
+		} else {
+
+			belowSensor.setColor(Color.RED);
+			setAnimation(jump);
+		}
+
+	}
+	
 
 }
