@@ -74,8 +74,7 @@ public class OldMen extends BaseActor {
 	}
 
 	public void act(float dt) {
-		super.act(dt);
-
+		super.act(dt); // 0.0165
 		// get keyboard input
 		/*
 		 * if(moveAlowed) { if (Gdx.input.isKeyPressed(Keys.LEFT))
@@ -88,11 +87,11 @@ public class OldMen extends BaseActor {
 		if (moveAllowed) {
 
 			if (!Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {
-				deacselerate( dt);
-		
+				deacselerate(dt);
+
 			}
 			applyGravity(dt);
-			
+
 			belowSensorCalc();
 			if (getVelocityVec().x > 0) // face right
 				setScaleX(1);
@@ -102,9 +101,8 @@ public class OldMen extends BaseActor {
 
 			alignCamera();
 			boundToWorld();
-		}
-		else {
-			
+		} else {
+
 			setAnimation(stand);
 		}
 	}
@@ -124,7 +122,7 @@ public class OldMen extends BaseActor {
 	public boolean isOnSolid() {
 		for (BaseActor actor : BaseActor.getList(getStage(), SolidActor.class)) {
 			SolidActor solid = (SolidActor) actor;
-		
+
 			if (belowOverlaps(solid) && solid.isEnabled()) {
 				return true;
 			}
@@ -148,6 +146,7 @@ public class OldMen extends BaseActor {
 	public boolean isJumping() {
 		return (getVelocityVec().y > 0);
 	}
+
 	private void deacselerate(float dt) {
 		float decelerationAmount = walkDeceleration * dt;
 
@@ -167,24 +166,25 @@ public class OldMen extends BaseActor {
 
 		getVelocityVec().x = walkSpeed * walkDirection;
 	}
-	
+
 	private void applyGravity(float dt) {
 		// apply gravity
-					accelerationVec.add(0, -gravity);
 
-					getVelocityVec().add(accelerationVec.x * dt, accelerationVec.y * dt);
+		accelerationVec.add(0, -gravity);
+		getVelocityVec().add(accelerationVec.x * dt, accelerationVec.y * dt);
 
-					getVelocityVec().x = MathUtils.clamp(getVelocityVec().x, -maxHorizontalSpeed, maxHorizontalSpeed);
+		getVelocityVec().x = MathUtils.clamp(getVelocityVec().x, -maxHorizontalSpeed, maxHorizontalSpeed);
 
-					moveBy(getVelocityVec().x * dt, getVelocityVec().y * dt);
+		moveBy(getVelocityVec().x * dt, getVelocityVec().y * dt);
 
-					if (getVelocityVec().x == 0) {
-						moveEnding = true;
-					//	System.out.println("true");
-					}
-					// reset acceleration
-					accelerationVec.set(0, 0);
+		if (getVelocityVec().x == 0) {
+			moveEnding = true;
+			// System.out.println("true");
+		}
+		// reset acceleration
+		accelerationVec.set(0, 0);
 	}
+
 	private void belowSensorCalc() {
 
 		// move the below sensor below the koala
@@ -194,13 +194,12 @@ public class OldMen extends BaseActor {
 			belowSensor.setColor(Color.GREEN);
 			if (getVelocityVec().x == 0) {
 				setAnimation(stand);
-	
-			}
-			else {
+
+			} else {
 				setAnimation(walk);
-	
-				}	
-			
+
+			}
+
 		} else {
 
 			belowSensor.setColor(Color.RED);
@@ -208,6 +207,5 @@ public class OldMen extends BaseActor {
 		}
 
 	}
-	
 
 }

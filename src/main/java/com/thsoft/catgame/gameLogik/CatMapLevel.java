@@ -50,10 +50,10 @@ public class CatMapLevel extends BaseActor {
 
 		// set up the below sensor
 		belowSensor = new BaseActor(0, 0, s);
-		// belowSensor.loadTexture("assets/barier.png");
+		 belowSensor.loadTexture("assets/barier.png");
 		belowSensor.setSize(this.getWidth() - 8, 8);
 		belowSensor.setBoundaryRectangle();
-		belowSensor.setVisible(false);
+		belowSensor.setVisible(true);
 		moveEnding = false;
 		moveAllowed = true;
 		
@@ -70,7 +70,7 @@ public class CatMapLevel extends BaseActor {
 
 		
 		// decelerate when not accelerating
-	/*	if (moveAllowed) {
+	//	if (moveAllowed) {
 
 			if (!Gdx.input.isKeyPressed(Keys.RIGHT) && !Gdx.input.isKeyPressed(Keys.LEFT)) {	
 				float decelerationAmount = walkDeceleration * dt;
@@ -92,7 +92,6 @@ public class CatMapLevel extends BaseActor {
 				getVelocityVec().x = walkSpeed * walkDirection;
 
 			}
-
 			// apply gravity
 			accelerationVec.add(0, -gravity);
 
@@ -115,18 +114,18 @@ public class CatMapLevel extends BaseActor {
 			if (this.isOnSolid()) {
 				belowSensor.setColor(Color.GREEN);
 				if (getVelocityVec().x == 0) {
-					setAnimation(stand);
+					//setAnimation(stand);
 		
 				}
 				else {
-					setAnimation(walk);
+					//setAnimation(walk);
 		
 					}	
 				
 			} else {
 	
 				belowSensor.setColor(Color.RED);
-				setAnimation(jump);
+			//	setAnimation(jump);
 			}
 
 			if (getVelocityVec().x > 0) // face right
@@ -138,12 +137,10 @@ public class CatMapLevel extends BaseActor {
 			alignCamera();
 			boundToWorld();
 		}
-		else {
+		//else {
 			
-			setAnimation(stand);
-		}
-		*/
-	}
+		//	setAnimation(stand);
+		//}
 	public boolean isOnSolid() {
 		for (BaseActor actor : BaseActor.getList(getStage(), SolidActor.class)) {
 			SolidActor solid = (SolidActor) actor;

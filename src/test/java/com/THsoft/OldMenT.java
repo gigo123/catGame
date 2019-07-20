@@ -3,6 +3,7 @@ package com.THsoft;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.junit.BeforeClass;
@@ -98,5 +99,29 @@ class OldMenT {
 			e.printStackTrace();
 		}
 	}
+	@Test
+	void gravityCheck() {
+		init();
+		try {
+			//Class[] cArg = new Class[1];
+	     //    cArg[0] = Float.class;
+			
+			Method gravityAply = oldMen.getClass().getDeclaredMethod("applyGravity", float.class);
+			 
+			gravityAply.setAccessible(true);
+			gravityAply.invoke(oldMen,(float)0.0165);
+		assertTrue(oldMen.getAccelerationVec().x==0 ,  " acseleration vector aftecr calc must bu reset ( poviden 0)");
+		assertTrue(oldMen.getAccelerationVec().y==0 ,  " acseleration vector aftecr calc must bu reset ( poviden 0)");
+		assertTrue(oldMen.getVelocityVec().x==0 ,  " x velocy =0");
+		assertTrue(oldMen.getVelocityVec().y== (float)-11.55 ,  " y velocyty = -11.55");
+		//System.out.println(oldMen.getVelocityVec().y);
+		} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 
 }
